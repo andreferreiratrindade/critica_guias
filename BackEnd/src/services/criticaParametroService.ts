@@ -114,4 +114,27 @@ export class CriticaParametroService {
     return RetornoRequest.Response(resultUpdate,null,res,HttpStatusCode.OK);
   }
 
+  public async deletarValidacao(req: any){
+    await check("idCriticaParametro")
+    .notEmpty()
+    .withMessage("Campo é de preenchimento obrigatório")
+    .isNumeric()
+    .withMessage("Campo deverá ser do tipo numerico")
+    .run(req);
+
+  }
+
+  public async deletar(req: any, res: any){
+    await this.deletarValidacao(req);
+
+    const result = validationResult(req);
+    if (!result.isEmpty()) {
+      return res.status(400).json({ errors: result.array() });
+    }
+
+    const resultDelete = await this._criticaParametroRepository.destroy({where:{idCriticaParametro: req.params.idCriticaParametro}});
+
+    return RetornoRequest.Response(resultDelete,null,res,HttpStatusCode.OK);
+  }
+
 }

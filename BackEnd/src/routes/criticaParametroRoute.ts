@@ -33,7 +33,11 @@ export class CriticaParametroRoute {
             let criticaParametroService = new CriticaParametroService(this._criticaParametroRepository);
             return criticaParametroService.atualizar(request,response);
         });
-
+        router.delete("/:idCriticaParametro",(request: any,response:any)=>{
+            console.log("Deleta");
+            let criticaParametroService = new CriticaParametroService(this._criticaParametroRepository);
+            return criticaParametroService.deletar(request,response);
+        });
         return router;
     }
 }

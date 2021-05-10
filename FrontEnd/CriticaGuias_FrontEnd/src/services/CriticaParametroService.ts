@@ -57,4 +57,20 @@ export class CriticaParametroService {
         }
     }
 
+    public async excluir(idCritica : number){
+        let parameters: IHttpClientRequestParameters
+            = {
+            url: Config.api + `/criticaParametro/${idCritica}`,
+            requiresToken: true,
+        }
+        try {
+            let result = await HttpClient.delete(parameters);
+            let notify = result.ok ? NotifyHelper.sucesso() : NotifyHelper.erro(result.error);
+        
+            return notify;
+        } catch (error) {
+            return NotifyHelper.erro(error)
+        }
+    }
+
 }

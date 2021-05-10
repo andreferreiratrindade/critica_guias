@@ -16,5 +16,14 @@ export namespace _modelsInput{
         idCriticaParametro : number| null
     }
 
+    export interface CriticaTeste{
+
+        nmeCritica: string | null,
+        desCritica:string| null,
+        nroCritica:number| null
+    }
+
+    
+
 }
  

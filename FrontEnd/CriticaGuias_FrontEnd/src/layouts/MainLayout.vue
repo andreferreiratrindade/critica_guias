@@ -12,7 +12,7 @@
         />
 
         <q-toolbar-title>
-          Simples cartões de estudos
+          Critica guias
         </q-toolbar-title>
       </q-toolbar>
     </q-header>

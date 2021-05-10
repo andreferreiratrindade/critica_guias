@@ -22,7 +22,7 @@
     </div>
     <div class="col-8">
       <p class="text-gray-700 font-semibold font-sans tracking-wide text-sm">
-        Critica
+        Regras da crítica
       </p>
 
       <draggable
@@ -43,6 +43,13 @@
         </critica-parametro-card>
       </draggable>
     </div>
+
+  <div class="col-12">
+    <div align="right" class="bg-white text-teal">
+          <q-btn color="primary" label="Validar parametros" @click="salvar"/>
+          <q-btn color="primary" label="Testar crítica" @click="testeDeCritica"/>
+    </div>
+  </div>
   </div>
 </template>
 
@@ -111,12 +118,13 @@ export default class CriticaParametroAdd extends Vue {
       this.criticaParametro.seqCriticaParametro = row.added.newIndex;
       this.criticaParametro.idParametro = row.added.element.idParametro;
       this.criticaParametro.idCritica = this.idCritica;
-      this._criticaParametroService.adicionar(this.criticaParametro).then(x=>{
+      this._criticaParametroService.adicionar(this.criticaParametro)
+      .then(async x=>{
 
         for (let index = row.added.newIndex+1; index < this.criticaParametros.length; index++) {
           const element = this.criticaParametros[index];
           element.seqCriticaParametro++; 
-          this._criticaParametroService.atualizar(element);
+          await this._criticaParametroService.atualizar(element);
         }
         this.recuperaCriticaParametros();
       });
@@ -139,9 +147,29 @@ export default class CriticaParametroAdd extends Vue {
   }
 
   deletarCriticaParametro(idCriticaParametro:number){
-    console.log(idCriticaParametro);
+
+    this._criticaParametroService.excluir(idCriticaParametro).then(async ()=>{
+
+        let indexCriticaParametro = this.criticaParametros
+                                  .filter(x=> {
+                                            return x.idCriticaParametro == idCriticaParametro
+                                            })[0].seqCriticaParametro;
+      
+        for (let index = indexCriticaParametro+1; index < this.criticaParametros.length; index++) {
+          const element = this.criticaParametros[index];
+          element.seqCriticaParametro = index - 1; 
+          await this._criticaParametroService.atualizar(element);
+        }
+        this.recuperaCriticaParametros();
+
+    })  
   }
 
+  testeDeCritica(){
+    this.$router.push({
+      path: `CriticaTesteList/${this.$route.params.idCritica}`,
+    });
+  }
 }
 </script>
 
@@ -150,8 +178,7 @@ export default class CriticaParametroAdd extends Vue {
   min-width: 320px;
   width: 320px;
 }
-/* Unfortunately @apply cannot be setup in codesandbox, 
-but you'd use "@apply border opacity-50 border-blue-500 bg-gray-200" here */
+
 .ghost-card {
   opacity: 0.5;
   background: #f7fafc;

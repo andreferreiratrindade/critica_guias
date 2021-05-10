@@ -19,6 +19,12 @@ create table TipoParametro(
     NmeTipoParametro varchar(100) not null
 );
 
+create table TipoDado(
+
+    IdTipoDado int primary key not null, 
+    NmeTipoDado varchar(50) not null, 
+    DesTipoDado varchar(500) not null
+);
 
 
 
@@ -44,6 +50,7 @@ create table ParametroConsulta(
     IdParametroConsulta int auto_increment primary key, 
     IdParametro int not null, 
     IdTipoParametroConsulta tinyint not null, -- Caso parametro esteja relacionado ao beneficiário, prestador, conveniada
+    IdTipoDado  int not null, 
     TxtSelect   text not null, 
     TxtFrom     text not null, 
     TxtWhere    text null, 
@@ -55,6 +62,10 @@ create table ParametroConsulta(
     
 	FOREIGN KEY (IdTipoParametroConsulta)
     REFERENCES TipoParametroConsulta (IdTipoParametroConsulta)
+    ON UPDATE RESTRICT ON DELETE CASCADE, 
+
+    FOREIGN KEY (IdTipoDado)
+    REFERENCES TipoDado (IdTipoDado)
     ON UPDATE RESTRICT ON DELETE CASCADE
 );
 
@@ -131,8 +142,43 @@ create table Item(
 
 );
 
+create table CriticaTeste(
+    IdCriticaTeste int auto_increment primary key,  
+    IdCritica   int not null,
+    DesCriticaTeste text not null,
+    StaResultadoEsperado bit not null, 
+    StaResultadoObtido bit,
+    DtaAtualizacao TIMESTAMP  default current_timestamp,
+    FOREIGN KEY (IdCritica)
+    REFERENCES Critica (IdCritica)
+    ON UPDATE RESTRICT ON DELETE CASCADE
+);
+
+
+create table CriticaTesteParametro(
+    IdCriticaTesteParametro int auto_increment primary key,
+    IdCriticaTeste int not null, 
+    IdCriticaParametro int not null, 
+    TxtParametroTeste text not null,
+
+    FOREIGN KEY (IdCriticaParametro)
+    REFERENCES CriticaParametro (IdCriticaParametro)
+    ON UPDATE RESTRICT ON DELETE CASCADE,
+
+    FOREIGN KEY (IdCriticaTeste)
+    REFERENCES CriticaTeste (IdCriticaTeste)
+    ON UPDATE RESTRICT ON DELETE CASCADE
+
+);
+
+
+insert into TipoDado values(1,'int', 'numerico');
+insert into TipoDado values(2,'varchar(100)', 'texto');
+insert into TipoDado values(3,'TIMESTAMP', 'data');
+
 insert into TipoParametroConsulta values(1, 'Beneficiário');
 insert into TipoParametroConsulta values(2, 'Prestador');
+insert into TipoParametroConsulta values(3, 'Guia');
 
 insert into TipoParametro values(1, 'Operadores Lógicos / Recursos do sistema');
 insert into TipoParametro values(2, 'Consulta');
@@ -143,25 +189,60 @@ INSERT INTO `criticaguia`.`parametrogeral` (`IdParametro`, `TxtParametroGeral`) 
 INSERT INTO `criticaguia`.`parametro` (`NmeParametro`, `IdTipoParametro`, `DesCorParametro`)  VALUES (')', 1, 'purple-3' );
 INSERT INTO `criticaguia`.`parametrogeral` (`IdParametro`, `TxtParametroGeral`) VALUES(LAST_INSERT_ID(),')');
 
-INSERT INTO `criticaguia`.`parametro` (`NmeParametro`, `IdTipoParametro`, `DesCorParametro`)  VALUES ('e', 1, 'red-5' );
+INSERT INTO `criticaguia`.`parametro` (`NmeParametro`, `IdTipoParametro`, `DesCorParametro`)  VALUES ('e', 1, 'purple-3' );
 INSERT INTO `criticaguia`.`parametrogeral` (`IdParametro`, `TxtParametroGeral`) VALUES(LAST_INSERT_ID(),'&&');
 
-INSERT INTO `criticaguia`.`parametro` (`NmeParametro`, `IdTipoParametro`, `DesCorParametro`)  VALUES ('ou', 1, 'deep-purple-5' );
+INSERT INTO `criticaguia`.`parametro` (`NmeParametro`, `IdTipoParametro`, `DesCorParametro`)  VALUES ('ou', 1, 'purple-3' );
 INSERT INTO `criticaguia`.`parametrogeral` (`IdParametro`, `TxtParametroGeral`) VALUES(LAST_INSERT_ID(),'||');
 
-INSERT INTO `criticaguia`.`parametro` (`NmeParametro`, `IdTipoParametro`, `DesCorParametro`) VALUES ('maior que', 1, 'indigo-5' );
+INSERT INTO `criticaguia`.`parametro` (`NmeParametro`, `IdTipoParametro`, `DesCorParametro`) VALUES ('maior que', 1, 'purple-3' );
 INSERT INTO `criticaguia`.`parametrogeral` (`IdParametro`, `TxtParametroGeral`) VALUES(LAST_INSERT_ID(),'>');
 
-INSERT INTO `criticaguia`.`parametro` (`NmeParametro`, `IdTipoParametro`, `DesCorParametro`)  VALUES ('maior ou igual que', 1, 'blue-5' );
+INSERT INTO `criticaguia`.`parametro` (`NmeParametro`, `IdTipoParametro`, `DesCorParametro`)  VALUES ('maior ou igual que', 1, 'purple-3' );
 INSERT INTO `criticaguia`.`parametrogeral` (`IdParametro`, `TxtParametroGeral`) VALUES(LAST_INSERT_ID(),'>=');
 
-INSERT INTO `criticaguia`.`parametro` (`NmeParametro`, `IdTipoParametro`, `DesCorParametro`) VALUES ('menor', 1, 'light-blue-3' );
+INSERT INTO `criticaguia`.`parametro` (`NmeParametro`, `IdTipoParametro`, `DesCorParametro`) VALUES ('menor que', 1, 'purple-3' );
 INSERT INTO `criticaguia`.`parametrogeral` (`IdParametro`, `TxtParametroGeral`) VALUES(LAST_INSERT_ID(),'<');
 
-INSERT INTO `criticaguia`.`parametro` (`NmeParametro`, `IdTipoParametro`, `DesCorParametro`)  VALUES ('menor ou igual que', 1, 'cyan-5' );
+INSERT INTO `criticaguia`.`parametro` (`NmeParametro`, `IdTipoParametro`, `DesCorParametro`)  VALUES ('menor ou igual que', 1, 'purple-3' );
 INSERT INTO `criticaguia`.`parametrogeral` (`IdParametro`, `TxtParametroGeral`) VALUES(LAST_INSERT_ID(),'<=');
 
 
 INSERT INTO `criticaguia`.`parametro` (`NmeParametro`, `IdTipoParametro`, `DesCorParametro`)  VALUES ('data atual', 1, 'green-5' );
 INSERT INTO `criticaguia`.`parametrogeral` (`IdParametro`, `TxtParametroGeral`) VALUES(LAST_INSERT_ID(),'now()');
 
+INSERT INTO `criticaguia`.`parametro` (`NmeParametro`, `IdTipoParametro`, `DesCorParametro`)  VALUES ('data fim de validade do beneficiário', 2, 'indigo-2' );
+INSERT INTO `criticaguia`.`parametroconsulta`
+(
+`IdParametro`,
+`IdTipoParametroConsulta`,
+`TxtSelect`,
+`TxtFrom`,
+`TxtWhere`)
+VALUES
+(
+LAST_INSERT_ID(),
+1,
+'beneficiario.DtaFimValidade',
+'Beneficiario beneficiario 
+	inner join Guia guia 
+    on guia.IdBeneficiario = beneficiario.IdBeneficiario',
+'guia.IdGuia = :idGuia');
+
+
+INSERT INTO `criticaguia`.`parametro` (`NmeParametro`, `IdTipoParametro`, `DesCorParametro`)  VALUES ('data de entrada da guia', 2, 'amber-2' );
+
+INSERT INTO `criticaguia`.`parametroconsulta`
+(
+`IdParametro`,
+`IdTipoParametroConsulta`,
+`TxtSelect`,
+`TxtFrom`,
+`TxtWhere`)
+VALUES
+(
+LAST_INSERT_ID(),
+3,
+'guia.DtaEntrada',
+'Guia guia',
+'guia.IdGuia = :idGuia');
