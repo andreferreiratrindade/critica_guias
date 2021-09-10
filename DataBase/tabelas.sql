@@ -5,7 +5,7 @@ use CriticaGuia;
 
 create table Critica(
 
-    IdCritica int auto_increment primary key, 
+    IdCritica int identity(1,1) primary key, 
     NmeCritica varchar(500) not null, 
     DesCritica text not null, 
     NroCritica int not null, 
@@ -29,7 +29,7 @@ create table TipoDado(
 
 
 create table Parametro(
-    IdParametro int auto_increment primary key,  
+    IdParametro int identity(1,1) primary key,  
     NmeParametro varchar(50) not null, 
     IdTipoParametro tinyint not null, 
     DesCorParametro varchar(50) not null,
@@ -47,7 +47,7 @@ create table TipoParametroConsulta(
 
 
 create table ParametroConsulta(
-    IdParametroConsulta int auto_increment primary key, 
+    IdParametroConsulta int identity(1,1) primary key, 
     IdParametro int not null, 
     IdTipoParametroConsulta tinyint not null, -- Caso parametro esteja relacionado ao beneficiário, prestador, conveniada
     IdTipoDado  int not null, 
@@ -70,7 +70,7 @@ create table ParametroConsulta(
 );
 
 create table ParametroGeral(
-    IdParametroGeral int auto_increment primary key, 
+    IdParametroGeral int identity(1,1) primary key, 
     IdParametro int not null, 
     TxtParametroGeral varchar(500) not null,
     DtaInclusao TIMESTAMP  default current_timestamp,
@@ -84,7 +84,7 @@ create table ParametroGeral(
 
 create table CriticaParametro(
 
-    IdCriticaParametro int auto_increment primary key,
+    IdCriticaParametro int identity(1,1) primary key,
     IdCritica int not null, 
     IdParametro int not null, 
     SeqCriticaParametro int not null, 
@@ -101,7 +101,7 @@ create table CriticaParametro(
 
 
 create table Beneficiario(
-    IdBeneficiario int auto_increment primary key,  
+    IdBeneficiario int identity(1,1) primary key,  
     NmeBeneficiario varchar(100) not null, 
     DtaNascimento TIMESTAMP not null,
     DtaInicioValidade TIMESTAMP not null, 
@@ -109,13 +109,13 @@ create table Beneficiario(
 );
 
 create table Prestador(
-    IdPrestador int auto_increment primary key,  
+    IdPrestador int identity(1,1) primary key,  
     NmeRazaoSocial varchar(500) not null, 
     NroCNPJ int not null
 );
 
 create table Guia(
-    IdGuia int auto_increment primary key,  
+    IdGuia int identity(1,1) primary key,  
     IdBeneficiario int not null,  
     IdPrestador int not null,  
 
@@ -131,7 +131,7 @@ create table Guia(
 );
 
 create table Item(
-    IdItem int auto_increment primary key,  
+    IdItem int identity(1,1) primary key,  
     IdGuia int not null,  
     VlrItem decimal(15,2) not null, 
     NroServico int not null,
@@ -143,7 +143,7 @@ create table Item(
 );
 
 create table CriticaTeste(
-    IdCriticaTeste int auto_increment primary key,  
+    IdCriticaTeste int identity(1,1) primary key,  
     IdCritica   int not null,
     DesCriticaTeste text not null,
     StaResultadoEsperado bit not null, 
@@ -156,7 +156,7 @@ create table CriticaTeste(
 
 
 create table CriticaTesteParametro(
-    IdCriticaTesteParametro int auto_increment primary key,
+    IdCriticaTesteParametro int identity(1,1) primary key,
     IdCriticaTeste int not null, 
     IdCriticaParametro int not null, 
     TxtParametroTeste text not null,
@@ -184,32 +184,32 @@ insert into TipoParametro values(1, 'Operadores Lógicos / Recursos do sistema')
 insert into TipoParametro values(2, 'Consulta');
 
 INSERT INTO `criticaguia`.`parametro` (`NmeParametro`, `IdTipoParametro`, `DesCorParametro`) VALUES ( '(', 1, 'purple-3' );
-INSERT INTO `criticaguia`.`parametrogeral` (`IdParametro`, `TxtParametroGeral`) VALUES(LAST_INSERT_ID(),'(');
+INSERT INTO `criticaguia`.`parametrogeral` (`IdParametro`, `TxtParametroGeral`) VALUES(@@identity,'(');
 
 INSERT INTO `criticaguia`.`parametro` (`NmeParametro`, `IdTipoParametro`, `DesCorParametro`)  VALUES (')', 1, 'purple-3' );
-INSERT INTO `criticaguia`.`parametrogeral` (`IdParametro`, `TxtParametroGeral`) VALUES(LAST_INSERT_ID(),')');
+INSERT INTO `criticaguia`.`parametrogeral` (`IdParametro`, `TxtParametroGeral`) VALUES(@@identity,')');
 
 INSERT INTO `criticaguia`.`parametro` (`NmeParametro`, `IdTipoParametro`, `DesCorParametro`)  VALUES ('e', 1, 'purple-3' );
-INSERT INTO `criticaguia`.`parametrogeral` (`IdParametro`, `TxtParametroGeral`) VALUES(LAST_INSERT_ID(),'&&');
+INSERT INTO `criticaguia`.`parametrogeral` (`IdParametro`, `TxtParametroGeral`) VALUES(@@identity,'&&');
 
 INSERT INTO `criticaguia`.`parametro` (`NmeParametro`, `IdTipoParametro`, `DesCorParametro`)  VALUES ('ou', 1, 'purple-3' );
-INSERT INTO `criticaguia`.`parametrogeral` (`IdParametro`, `TxtParametroGeral`) VALUES(LAST_INSERT_ID(),'||');
+INSERT INTO `criticaguia`.`parametrogeral` (`IdParametro`, `TxtParametroGeral`) VALUES(@@identity,'||');
 
 INSERT INTO `criticaguia`.`parametro` (`NmeParametro`, `IdTipoParametro`, `DesCorParametro`) VALUES ('maior que', 1, 'purple-3' );
-INSERT INTO `criticaguia`.`parametrogeral` (`IdParametro`, `TxtParametroGeral`) VALUES(LAST_INSERT_ID(),'>');
+INSERT INTO `criticaguia`.`parametrogeral` (`IdParametro`, `TxtParametroGeral`) VALUES(@@identity,'>');
 
 INSERT INTO `criticaguia`.`parametro` (`NmeParametro`, `IdTipoParametro`, `DesCorParametro`)  VALUES ('maior ou igual que', 1, 'purple-3' );
-INSERT INTO `criticaguia`.`parametrogeral` (`IdParametro`, `TxtParametroGeral`) VALUES(LAST_INSERT_ID(),'>=');
+INSERT INTO `criticaguia`.`parametrogeral` (`IdParametro`, `TxtParametroGeral`) VALUES(@@identity,'>=');
 
 INSERT INTO `criticaguia`.`parametro` (`NmeParametro`, `IdTipoParametro`, `DesCorParametro`) VALUES ('menor que', 1, 'purple-3' );
-INSERT INTO `criticaguia`.`parametrogeral` (`IdParametro`, `TxtParametroGeral`) VALUES(LAST_INSERT_ID(),'<');
+INSERT INTO `criticaguia`.`parametrogeral` (`IdParametro`, `TxtParametroGeral`) VALUES(@@identity,'<');
 
 INSERT INTO `criticaguia`.`parametro` (`NmeParametro`, `IdTipoParametro`, `DesCorParametro`)  VALUES ('menor ou igual que', 1, 'purple-3' );
-INSERT INTO `criticaguia`.`parametrogeral` (`IdParametro`, `TxtParametroGeral`) VALUES(LAST_INSERT_ID(),'<=');
+INSERT INTO `criticaguia`.`parametrogeral` (`IdParametro`, `TxtParametroGeral`) VALUES(@@identity,'<=');
 
 
 INSERT INTO `criticaguia`.`parametro` (`NmeParametro`, `IdTipoParametro`, `DesCorParametro`)  VALUES ('data atual', 1, 'green-5' );
-INSERT INTO `criticaguia`.`parametrogeral` (`IdParametro`, `TxtParametroGeral`) VALUES(LAST_INSERT_ID(),'now()');
+INSERT INTO `criticaguia`.`parametrogeral` (`IdParametro`, `TxtParametroGeral`) VALUES(@@identity,'getdate()');
 
 INSERT INTO `criticaguia`.`parametro` (`NmeParametro`, `IdTipoParametro`, `DesCorParametro`)  VALUES ('data fim de validade do beneficiário', 2, 'indigo-2' );
 INSERT INTO `criticaguia`.`parametroconsulta`
@@ -221,7 +221,7 @@ INSERT INTO `criticaguia`.`parametroconsulta`
 `TxtWhere`)
 VALUES
 (
-LAST_INSERT_ID(),
+@@identity,
 1,
 'beneficiario.DtaFimValidade',
 'Beneficiario beneficiario 
@@ -241,7 +241,7 @@ INSERT INTO `criticaguia`.`parametroconsulta`
 `TxtWhere`)
 VALUES
 (
-LAST_INSERT_ID(),
+@@identity,
 3,
 'guia.DtaEntrada',
 'Guia guia',
