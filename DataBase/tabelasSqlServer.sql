@@ -163,7 +163,7 @@ create table CasoTeste(
     CasoTesteSituacaoId smallint not null,
     NmeCasoTeste varchar(250) not null, 
     NmeEsperado varchar(500), 
-   
+    NmeAtual varchar(500),
     CONSTRAINT FK_CasoTeste_Teste FOREIGN KEY (TesteId)
     REFERENCES Teste(TesteId),
 
@@ -204,12 +204,12 @@ insert  into CasoTesteSituacao values(3, 'Passou')
 insert  into CasoTesteSituacao values(4, 'Falhou')
 insert  into CasoTesteSituacao values(5, 'Erro')
 
-
+delete from Beneficiario_Mock
 insert into Beneficiario_Mock values(1,'André', 09891023605)
 insert into Beneficiario_Mock values(2,'Gustavo', 09891023605)
 insert into Beneficiario_Mock values(3,'Taís', 09891023605)
 
-
+delete from Prestador_Mock
 insert into Prestador_Mock values(1, 'Prestador 1', 1, '20210909')
 insert into Prestador_Mock values(2, 'Prestador 2', 2, '20210909')
 
@@ -242,11 +242,11 @@ set @TesteConfiguracaoMockId = @@IDENTITY
 insert into TesteConfiguracaoColunaMock values(@TesteConfiguracaoMockId, 1,  'PrestadorId')
 set @TesteConfiguracaoColunaMockId = @@IDENTITY
 
-insert into CasoTeste values(@TesteId, 1, 'Valida prestador', 'Prestador não encontrado')
+insert into CasoTeste values(@TesteId, 1, 'Valida prestador', '', null)
 set @CasoTesteId = @@IDENTITY
 
 insert into CasoTesteColunaMock values(@CasoTesteId, @TesteConfiguracaoColunaMockId,'123')
 
 
-insert into CasoTesteParametroExecucao values(@CasoTesteId,1, '123')
+insert into CasoTesteParametroExecucao values(@CasoTesteId,1, '1')
 

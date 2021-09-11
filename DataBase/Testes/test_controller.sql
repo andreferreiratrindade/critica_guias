@@ -39,11 +39,8 @@ while(exists(select 1 from #CasoTeste))begin
     set CasoTesteSituacaoId = @CasoTesteSituacao_Processando
     where  @CasoTesteId = CasoTesteId
 
-    print @query
     exec(@query)     
 end 
 END
 GO
 
-
-execute test_controller
