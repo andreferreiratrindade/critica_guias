@@ -205,9 +205,9 @@ insert  into CasoTesteSituacao values(4, 'Falhou')
 insert  into CasoTesteSituacao values(5, 'Erro')
 
 delete from Beneficiario_Mock
-insert into Beneficiario_Mock values(1,'André', 09891023605)
-insert into Beneficiario_Mock values(2,'Gustavo', 09891023605)
-insert into Beneficiario_Mock values(3,'Taís', 09891023605)
+insert into Beneficiario_Mock values(100,'André', 09891023605)
+insert into Beneficiario_Mock values(102,'Gustavo', 09891023605)
+insert into Beneficiario_Mock values(103,'Taís', 09891023605)
 
 delete from Prestador_Mock
 insert into Prestador_Mock values(1, 'Prestador 1', 1, '20210909')
@@ -249,4 +249,14 @@ insert into CasoTesteColunaMock values(@CasoTesteId, @TesteConfiguracaoColunaMoc
 
 
 insert into CasoTesteParametroExecucao values(@CasoTesteId,1, '1')
+
+
+insert into CasoTeste values(@TesteId, 1 , 'Valida prestador não encontrado na base', 'Prestador não encontrado', null)
+set @CasoTesteId = @@IDENTITY
+
+insert into CasoTesteColunaMock values(@CasoTesteId, @TesteConfiguracaoColunaMockId,'123')
+
+
+insert into CasoTesteParametroExecucao values(@CasoTesteId,1, '7')
+
 
