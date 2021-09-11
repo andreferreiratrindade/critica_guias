@@ -20,11 +20,18 @@ drop table if exists BeneficiarioEndereco
 drop table if exists Endereco
 drop table if exists Beneficiario
 
+drop table if exists CasoTesteSituacao
 
-
-
+go 
 use PlanoSaude
 go
+
+
+create table CasoTesteSituacao(
+    CasoTesteSituacaoId smallint primary key, 
+    NmeCasoTesteSituacao varchar(250) not null
+
+)
 
 create table Beneficiario(
     BeneficiarioId int identity(1,1) primary key ,
@@ -131,7 +138,7 @@ create table TesteConfiguracaoMock(
     TesteId int not null,
     NmeTabela varchar(500) not null,
 
-    CONSTRAINT FK_Teste_TesteConfiguracaoMock FOREIGN KEY (TesteId)
+    CONSTRAINT FK_TesteConfiguracaoMock_Teste FOREIGN KEY (TesteId)
     REFERENCES Teste(TesteId),
 
 )
@@ -139,40 +146,44 @@ create table TesteConfiguracaoMock(
 create table TesteConfiguracaoColunaMock(
     TesteConfiguracaoColunaMockId int identity(1,1) primary key, 
     TesteConfiguracaoMockId  int not null,
+    ParametroTipoId int not null,
     NmeColuna varchar(500) not null,
-    ParametroTipo int not null,
 
     CONSTRAINT FK_TesteConfiguracaoMock_TesteConfiguracaoColunaMock FOREIGN KEY (TesteConfiguracaoMockId)
     REFERENCES TesteConfiguracaoMock(TesteConfiguracaoMockId),
 
+    CONSTRAINT FK_TesteConfiguracaoMock_ParametroTipo FOREIGN KEY (ParametroTipoId)
+    REFERENCES ParametroTipo(ParametroTipoId),
 )
 
-create table CasoTesteMock(
-    CasoTesteMockId int identity(1,1) primary key, 
-    TesteConfiguracaoMockId int not null,
-
-    CONSTRAINT FK_TesteConfiguracaoMock_CasoTesteMock FOREIGN KEY (TesteConfiguracaoMockId)
-    REFERENCES TesteConfiguracaoMock(TesteConfiguracaoMockId)
-)
-
-create table CasoTesteColunaMock(
-    CasoTesteColunaMockId int identity(1,1) primary key, 
-
-    CasoTesteMockId int not null, 
-    TesteConfiguracaoColunaMockId int not null,
-
-  CONSTRAINT FK_TesteConfiguracaoColunaMock_CasoTesteColunaMock FOREIGN KEY (TesteConfiguracaoColunaMockId)
-    REFERENCES TesteConfiguracaoColunaMock(TesteConfiguracaoColunaMockId)
-)
 
 create table CasoTeste(
     CasoTesteId int identity(1,1) primary key, 
     TesteId int not null,
+    CasoTesteSituacaoId smallint not null,
     NmeCasoTeste varchar(250) not null, 
     NmeEsperado varchar(500), 
    
-    CONSTRAINT FK_Teste_CasoTeste FOREIGN KEY (TesteId)
-    REFERENCES Teste(TesteId)
+    CONSTRAINT FK_CasoTeste_Teste FOREIGN KEY (TesteId)
+    REFERENCES Teste(TesteId),
+
+    CONSTRAINT FK_CasoTeste_CasoTesteSituacao FOREIGN KEY (CasoTesteSituacaoId)
+    REFERENCES CasoTesteSituacao(CasoTesteSituacaoId),
+
+    
+)
+
+create table CasoTesteColunaMock(
+    CasoTesteColunaMockId int identity(1,1) primary key, 
+    CasoTesteId int not null, 
+    TesteConfiguracaoColunaMockId int not null,
+    ValorColunaMock varchar(500),
+
+    CONSTRAINT FK_TesteConfiguracaoColunaMock_CasoTesteColunaMock FOREIGN KEY (TesteConfiguracaoColunaMockId)
+    REFERENCES TesteConfiguracaoColunaMock(TesteConfiguracaoColunaMockId),
+
+    CONSTRAINT FK_TesteConfiguracaoColunaMock_CasoTeste FOREIGN KEY (CasoTesteId)
+    REFERENCES CasoTeste(CasoTesteId)
 )
 
 create table CasoTesteParametroExecucao(
@@ -185,6 +196,13 @@ create table CasoTesteParametroExecucao(
         CONSTRAINT FK_CasoTeste FOREIGN KEY (CasoTesteId)
     REFERENCES CasoTeste(CasoTesteId)
 )
+
+
+insert  into CasoTesteSituacao values(1, 'Aguardando processamento')
+insert  into CasoTesteSituacao values(2, 'Processando')
+insert  into CasoTesteSituacao values(3, 'Passou')
+insert  into CasoTesteSituacao values(4, 'Falhou')
+insert  into CasoTesteSituacao values(5, 'Erro')
 
 
 insert into Beneficiario_Mock values(1,'André', 09891023605)
@@ -203,3 +221,32 @@ insert into ParametroTipo values(1, 'int')
 insert into ParametroTipo values(2, 'varchar')
 insert into ParametroTipo values(3, 'char')
 insert into ParametroTipo values(4, 'decimal')
+
+
+
+execute aplicacao.dbo.monta_parametro_critica
+
+-- Criando primeiro teste
+
+declare @TesteConfiguracaoMockId int = 0
+,   @TesteId int = 0
+,   @CasoTesteId int = 0
+,   @TesteConfiguracaoColunaMockId int = 0
+insert into Teste values(1)
+set @TesteId = @@IDENTITY
+
+insert into TesteConfiguracaoMock values(@TesteId, 'PlanoSaude.dbo.Prestador')
+
+set @TesteConfiguracaoMockId = @@IDENTITY
+
+insert into TesteConfiguracaoColunaMock values(@TesteConfiguracaoMockId, 1,  'PrestadorId')
+set @TesteConfiguracaoColunaMockId = @@IDENTITY
+
+insert into CasoTeste values(@TesteId, 1, 'Valida prestador', 'Prestador não encontrado')
+set @CasoTesteId = @@IDENTITY
+
+insert into CasoTesteColunaMock values(@CasoTesteId, @TesteConfiguracaoColunaMockId,'123')
+
+
+insert into CasoTesteParametroExecucao values(@CasoTesteId,1, '123')
+

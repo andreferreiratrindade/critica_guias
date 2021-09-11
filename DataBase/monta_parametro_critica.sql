@@ -25,5 +25,3 @@ declare @Retorno int = 0
 
 END
 GO
-
-
