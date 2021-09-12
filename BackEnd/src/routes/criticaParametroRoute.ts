@@ -22,7 +22,7 @@ export class CriticaParametroRoute {
             return criticaParametroService.adicionar(request,response);
         });
 
-        router.get("/:idCritica",(request: any,response:any)=>{
+        router.get("/:criticaId",(request: any,response:any)=>{
             console.log("listagem");
             let criticaParametroService = new CriticaParametroService(this._criticaParametroRepository);
             return criticaParametroService.listar(request,response);
@@ -33,7 +33,7 @@ export class CriticaParametroRoute {
             let criticaParametroService = new CriticaParametroService(this._criticaParametroRepository);
             return criticaParametroService.atualizar(request,response);
         });
-        router.delete("/:idCriticaParametro",(request: any,response:any)=>{
+        router.delete("/:criticaIdParametro",(request: any,response:any)=>{
             console.log("Deleta");
             let criticaParametroService = new CriticaParametroService(this._criticaParametroRepository);
             return criticaParametroService.deletar(request,response);

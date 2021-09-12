@@ -4,16 +4,16 @@ import { IHttpClientRequestParameters } from "./interfaces/IHttpClientRequestPar
 import * as Config from '../config/config.json'
 import NotifyHelper from "src/helpers/NotifyHelpter";
 import { _helperModel } from "../helpers/_helperModel"
-export class CriticaTesteService {
+export class CasoTesteParametroExecucaoService {
 
 
-    public async adicionar(criticateste: _modelsInput.CriticaTeste) {
+    public async adicionar(conteudo: _modelsInput.CasoTesteParametroExecucao) {
         let parameters: IHttpClientRequestParameters
             = {
-            url: Config.api + "/criticaTeste",
+            url: Config.api + "/casoTesteParametroExecucao",
 
             requiresToken: true,
-            payload: criticateste
+            payload: conteudo
         }
         try {
             let result = await HttpClient.post(parameters);
@@ -25,10 +25,10 @@ export class CriticaTesteService {
         }
     }
 
-    public async listar(idCritica : number) {
+    public async listarPorCasoTeste(casoTesteIdId : number) {
         let parameters: IHttpClientRequestParameters
             = {
-            url: Config.api + `/criticaTeste/${idCritica}`,
+            url: Config.api + `/casoTesteParametroExecucao/RecuperaPorCasoTeste/${casoTesteIdId}`,
             requiresToken: true
         }
         try {
@@ -39,4 +39,17 @@ export class CriticaTesteService {
         }
     }
 
+    public async listarPorCritica(criticaId : number) {
+        let parameters: IHttpClientRequestParameters
+            = {
+            url: Config.api + `/casoTesteParametroExecucao/RecuperaPorCritica/${criticaId}`,
+            requiresToken: true
+        }
+        try {
+            let result = await HttpClient.get(parameters);
+            return result.data.obj;
+        } catch (error) {
+            return null
+        }
+    }
 }

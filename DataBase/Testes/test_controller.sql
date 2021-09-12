@@ -6,8 +6,7 @@ create or ALTER PROCEDURE test_controller
 AS
 BEGIN
     declare @Retorno int = 0
-,   @CriticaId int = 2
-,   @TesteId int = 0
+,   @criticaId int = 2
 ,   @NmeEsperado varchar(500)
 ,   @CasoTesteId int 
 ,   @NmeStoredProcedure varchar(500)
@@ -22,11 +21,9 @@ BEGIN
     select casoTeste.CasoTesteId
     , query =  'aplicacao.dbo.teste_' + critica.NmeStoredProcedure
     into #CasoTeste
-    from PlanoSaude.dbo.Teste Teste
-        inner join PlanoSaude.dbo.CasoTeste casoTeste
-        on casoTeste.TesteId = Teste.TesteId
+    from PlanoSaude.dbo.CasoTeste casoTeste
         inner join PlanoSaude.dbo.Critica critica
-        on critica.CriticaId = Teste.CriticaId
+        on critica.criticaId = casoTeste.criticaId
     where casoTeste.CasoTesteSituacaoId = @CasoTesteSituacao_Aguardando
 
     while(exists(select 1

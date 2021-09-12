@@ -1,12 +1,13 @@
 <template>
-  <div>
+ <div class="q-pa-md">
+    Manter Criticas
     <q-input
       v-model="critica.nroCritica"
+      class="col-2"
       type="text"
       label="N° Critica"
       filled
       require
-      autofocus
       lazy-rules
       focus
       :rules="[
@@ -21,9 +22,7 @@
       label="Nome Crítica"
       filled
       require
-      autofocus
       lazy-rules
-      focus
       :rules="[
         (val) =>
           (val && val.length > 0) || 'Campo de preenchimento obrigatório',
@@ -36,15 +35,25 @@
       label="Descrição"
       filled
       require
-      autofocus
       lazy-rules
-      focus
       :rules="[
         (val) =>
           (val && val.length > 0) || 'Campo de preenchimento obrigatório',
       ]"
     />
 
+ <q-input
+      v-model="critica.nmeStoredProcedure"
+      type="text"
+      label="Stored Procedure"
+      filled
+      require
+      lazy-rules
+      :rules="[
+        (val) =>
+          (val && val.length > 0) || 'Campo de preenchimento obrigatório',
+      ]"
+    />
           <q-btn color="primary" label="Adicionar" @click="salvar"/>
 
   </div>
@@ -52,8 +61,8 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { _modelsInput } from "./../../models/_modelsInput";
-import { CriticaService } from "./../../services/CriticaService";
+import { _modelsInput } from "../../models/_modelsInput";
+import { CriticaService } from "../../services/CriticaService";
 
 @Component
 export default class Critica extends Vue {
@@ -62,6 +71,8 @@ export default class Critica extends Vue {
     nmeCritica: null,
     desCritica: null,
     nroCritica: null,
+    nmeStoredProcedure : null,
+    criticaId : null
   };
 
   public salvar() {
@@ -69,11 +80,11 @@ export default class Critica extends Vue {
       .adicionar(this.critica)
       .then((result: any) => {
 
-        if(result.ok){
-          this.$router.push({
-          path: `criticaParametro/${result.obj.idCritica}`
-          })
-        }
+    
+    this.$router.push({
+      name: `criticaList`,
+    });
+
         this.$q.notify(result);
       })
       .catch((err: any) => {

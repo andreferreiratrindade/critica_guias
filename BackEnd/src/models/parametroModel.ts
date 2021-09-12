@@ -9,7 +9,7 @@ export class Parametro extends Model {
             primaryKey:true,
             autoIncrement : true})
     
-    idCritica !: number;
+    criticaId !: number;
 
     @Column(DataType.STRING)
     nmeCritica !: string;

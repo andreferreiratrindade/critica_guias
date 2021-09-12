@@ -17,11 +17,17 @@ export class CriticaRoute {
         let router = express.Router();
         
         router.post("",(request: any,response:any)=>{
-            console.log("adicionar Avaliação");
+            console.log("adicionar critica");
             let criticaService = new CriticaService(this._criticaRepository);
             return criticaService.adicionar(request,response);
         });
 
+
+        router.get("",(request: any,response:any)=>{
+            console.log("listagem");
+            let criticaService = new CriticaService(this._criticaRepository);
+            return criticaService.listar(request,response);
+        });
         
         return router;
     }

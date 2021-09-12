@@ -9,7 +9,7 @@ declare @Retorno int = 0
     delete from  PlanoSaude.dbo.CriticaParametro 
 
    insert into PlanoSaude.dbo.CriticaParametro 
-    select critica.CriticaId
+    select critica.criticaId
     , ParametroTipoId   = ParametroTipo.ParametroTipoId
     , NmeParametro = parametro.name 
     from PlanoSaude.dbo.Critica critica

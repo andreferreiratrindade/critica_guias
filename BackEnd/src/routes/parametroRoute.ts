@@ -1,7 +1,5 @@
 import {  ParametroService } from '../services/parametroService'
 import express, { Router } from 'express'
-import { Parametro } from '../models/parametroModel';
-import { Repository } from 'sequelize-typescript';
 
 export class ParametroRoute {
 

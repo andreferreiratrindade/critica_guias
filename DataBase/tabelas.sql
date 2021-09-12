@@ -5,7 +5,7 @@ use CriticaGuia;
 
 create table Critica(
 
-    IdCritica int identity(1,1) primary key, 
+    criticaId int identity(1,1) primary key, 
     NmeCritica varchar(500) not null, 
     DesCritica text not null, 
     NroCritica int not null, 
@@ -84,8 +84,8 @@ create table ParametroGeral(
 
 create table CriticaParametro(
 
-    IdCriticaParametro int identity(1,1) primary key,
-    IdCritica int not null, 
+    criticaIdParametro int identity(1,1) primary key,
+    criticaId int not null, 
     IdParametro int not null, 
     SeqCriticaParametro int not null, 
     DtaInclusao TIMESTAMP  default current_timestamp,
@@ -94,8 +94,8 @@ create table CriticaParametro(
     REFERENCES Parametro (IdParametro)
     ON UPDATE RESTRICT ON DELETE CASCADE,
 
-    FOREIGN KEY (IdCritica)
-    REFERENCES Critica (IdCritica)
+    FOREIGN KEY (criticaId)
+    REFERENCES Critica (criticaId)
     ON UPDATE RESTRICT ON DELETE CASCADE
 );
 
@@ -143,30 +143,30 @@ create table Item(
 );
 
 create table CriticaTeste(
-    IdCriticaTeste int identity(1,1) primary key,  
-    IdCritica   int not null,
+    criticaIdTeste int identity(1,1) primary key,  
+    criticaId   int not null,
     DesCriticaTeste text not null,
     StaResultadoEsperado bit not null, 
     StaResultadoObtido bit,
     DtaAtualizacao TIMESTAMP  default current_timestamp,
-    FOREIGN KEY (IdCritica)
-    REFERENCES Critica (IdCritica)
+    FOREIGN KEY (criticaId)
+    REFERENCES Critica (criticaId)
     ON UPDATE RESTRICT ON DELETE CASCADE
 );
 
 
 create table CriticaTesteParametro(
-    IdCriticaTesteParametro int identity(1,1) primary key,
-    IdCriticaTeste int not null, 
-    IdCriticaParametro int not null, 
+    criticaIdTesteParametro int identity(1,1) primary key,
+    criticaIdTeste int not null, 
+    criticaIdParametro int not null, 
     TxtParametroTeste text not null,
 
-    FOREIGN KEY (IdCriticaParametro)
-    REFERENCES CriticaParametro (IdCriticaParametro)
+    FOREIGN KEY (criticaIdParametro)
+    REFERENCES CriticaParametro (criticaIdParametro)
     ON UPDATE RESTRICT ON DELETE CASCADE,
 
-    FOREIGN KEY (IdCriticaTeste)
-    REFERENCES CriticaTeste (IdCriticaTeste)
+    FOREIGN KEY (criticaIdTeste)
+    REFERENCES CriticaTeste (criticaIdTeste)
     ON UPDATE RESTRICT ON DELETE CASCADE
 
 );

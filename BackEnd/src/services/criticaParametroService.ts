@@ -27,7 +27,7 @@ export class CriticaParametroService {
       .withMessage("Campo de preenchimento obrigatório")
       .run(req);
 
-      await check("idCritica")
+      await check("criticaId")
       .notEmpty()
       .withMessage("Campo de preenchimento obrigatório")
       .run(req);
@@ -49,7 +49,7 @@ export class CriticaParametroService {
       let criticaParametro = {
         idParametro: req.body.idParametro,
         seqCriticaParametro: req.body.seqCriticaParametro,
-        idCritica: req.body.idCritica,
+        criticaId: req.body.criticaId,
       };
       console.log("Salvando");
 
@@ -62,7 +62,7 @@ export class CriticaParametroService {
   }
 
   private async listagemValidacao(req: any){
-    await check("idCritica")
+    await check("criticaId")
     .notEmpty()
     .withMessage("Campo de preenchimento obrigatório")
     .isNumeric()
@@ -80,7 +80,7 @@ export class CriticaParametroService {
       }
 
   
-      const parametros  =  await RepositoryQuery.RecuperaListagemParametroCritica(req.params.idCritica); 
+      const parametros  =  await RepositoryQuery.RecuperaListagemParametroCritica(req.params.criticaId); 
 
       return RetornoRequest.Response(parametros, null, res, HttpStatusCode.OK);
     } catch (error: any) {
@@ -88,7 +88,7 @@ export class CriticaParametroService {
     }
   }
   public async atualizarValidacao(req: any){
-    await check("idCriticaParametro")
+    await check("criticaIdParametro")
     .notEmpty()
     .withMessage("Campo é de preenchimento obrigatório")
     .run(req);
@@ -109,13 +109,13 @@ export class CriticaParametroService {
       return res.status(400).json({ errors: result.array() });
     }
     let criticaParametro = {seqCriticaParametro : req.body.seqCriticaParametro };
-    let resultUpdate= await this._criticaParametroRepository.update(criticaParametro, {where:{idCriticaParametro:req.body.idCriticaParametro}});
+    let resultUpdate= await this._criticaParametroRepository.update(criticaParametro, {where:{criticaIdParametro:req.body.criticaIdParametro}});
 
     return RetornoRequest.Response(resultUpdate,null,res,HttpStatusCode.OK);
   }
 
   public async deletarValidacao(req: any){
-    await check("idCriticaParametro")
+    await check("criticaIdParametro")
     .notEmpty()
     .withMessage("Campo é de preenchimento obrigatório")
     .isNumeric()
@@ -132,7 +132,7 @@ export class CriticaParametroService {
       return res.status(400).json({ errors: result.array() });
     }
 
-    const resultDelete = await this._criticaParametroRepository.destroy({where:{idCriticaParametro: req.params.idCriticaParametro}});
+    const resultDelete = await this._criticaParametroRepository.destroy({where:{criticaIdParametro: req.params.criticaIdParametro}});
 
     return RetornoRequest.Response(resultDelete,null,res,HttpStatusCode.OK);
   }

@@ -22,12 +22,14 @@
     "express-validator": "^6.10.0",
     "jsonwebtoken": "^8.5.1",
     "morgan": "^1.10.0",
+    "mssql": "^7.2.1",
     "mysql": "^2.18.1",
     "mysql2": "^2.2.5",
     "nodemon": "^2.0.7",
     "reflect-metadata": "^0.1.13",
     "sequelize": "^6.6.2",
-    "sequelize-typescript": "^2.1.0"
+    "sequelize-typescript": "^2.1.0",
+    "tedious": "^12.2.0"
   },
   "devDependencies": {
     "@types/bcrypt": "^3.0.1",
@@ -41,6 +43,7 @@
     "@types/morgan": "^1.9.2",
     "@types/node": "^14.14.41",
     "@types/sequelize": "^4.28.9",
+    "@types/tedious": "^4.0.5",
     "typescript": "^4.2.4"
   },
   "description": ""

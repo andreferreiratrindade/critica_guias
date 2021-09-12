@@ -5,10 +5,10 @@ const routes: RouteConfig[] = [
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/Critica/CriticaList.vue') },
-      { path: 'criticaAdd', name: "criticaAdd", component: () => import('pages/Critica/CriticaAdd.vue') },
-      { path: 'criticaParametroList/:idCritica', name: "criticaParametroList", component: () => import('pages/CriticaParametro/criticaParametroList.vue') },
-      { path: 'criticaParametroAdd/:idCritica', name: "criticaParametroAdd", component: () => import('pages/CriticaParametro/criticaParametroAdd.vue') }
+      { path: '', component: () => import('pages/Critica/CriticaList.vue'), name:"criticaList" },
+      { path: 'ManterCritica', name: "ManterCritica", component: () => import('pages/Critica/ManterCritica.vue') },
+      { path: 'casoTeste/casoTesteList/:criticaId', name: "casoTesteList", component: () => import('pages/CasoTeste/casoTesteList.vue') },
+      { path: 'casoTeste/casoTesteList/:criticaId/manterCasoTeste/:casoTesteId', name: "manterCasoTeste", component: () => import('pages/CasoTeste/manterCasoTeste.vue') },
     ]
   },
 

@@ -8,7 +8,7 @@ export namespace _modelsOutput{
     }
 
     export interface CriticaParametro{
-        idCriticaParametro: number| null,
+        criticaIdParametro: number| null,
         idParametro: number | null, 
         nmeParametro: string | null,
         desCorParametro : string |null

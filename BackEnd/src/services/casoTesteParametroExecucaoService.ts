@@ -6,33 +6,28 @@ import { RetornoRequest } from '../utils/retornoRequest';
 import HttpStatusCode from '../constants/HttpStatusCode';
 import { Config } from '../config/Config';
 import { RepositoryQuery } from '../repositories/repositoryQuery';
+import { CasoTesteParametroExecucao } from '../models/casoTesteParametroExecucaoModel';
 
 
-export class CriticaService {
+export class CasoTesteParametroExecucaoService {
 
-  private readonly _criticaRepository !: Repository<Critica>
+  private readonly _casoTesteParametroExecucaoRepository !: Repository<CasoTesteParametroExecucao>
 
-  constructor(criticaRepository: Repository<Critica>) {
-    this._criticaRepository = criticaRepository;
+  constructor(_casoTesteParametroExecucaoRepository: Repository<CasoTesteParametroExecucao>) {
+    this._casoTesteParametroExecucaoRepository = _casoTesteParametroExecucaoRepository;
   }
 
   public async adicionarValidation(req: any) {
-    await check("nmeCritica")
+    await check("criticaParametroId")
       .notEmpty()
       .withMessage("Campo de preenchimento obrigatório")
       .run(req);
 
-    await check("desCritica")
+      await check("casoTesteId")
       .notEmpty()
       .withMessage("Campo de preenchimento obrigatório")
       .run(req);
 
-    await check("nroCritica")
-      .notEmpty()
-      .withMessage("Campo Nome é de preenchimento obrigatório")
-      .isNumeric()
-      .withMessage("Campo do tipo numerico")
-      .run(req);
   }
 
 
@@ -48,15 +43,14 @@ export class CriticaService {
       if (!result.isEmpty()) {
         return RetornoRequest.Response(result.array(), null, res, HttpStatusCode.BAD_REQUEST);
       }
-      let critica = {
-        nmeCritica: req.body.nmeCritica,
-        desCritica: req.body.desCritica,
-        nroCritica: req.body.nroCritica,
-        nmeStoredProcedure : req.body.nmeStoredProcedure
+      let casoTesteParametroExecucao = {
+        casoTesteId: req.body.casoTesteId,
+        criticaParametroId: req.body.criticaParametroId,
+        valorParametroExecucao: req.body.valorParametroExecucao,
       };
       console.log("Salvando");
 
-      let resultCreate = await this._criticaRepository.create(critica, { isNewRecord: true })
+      let resultCreate = await this._casoTesteParametroExecucaoRepository.create(casoTesteParametroExecucao, { isNewRecord: true })
 
       return RetornoRequest.Response(resultCreate, null, res, HttpStatusCode.OK);
     } catch (error: any) {
@@ -64,10 +58,22 @@ export class CriticaService {
     }
   }
 
-  public async listar(req: any, res: any) {
+  public async listarPorCritica(req: any, res: any) {
     try {
   
-      const parametros  =  await RepositoryQuery.RecuperaListagemCritica(); 
+      const parametros  =  await RepositoryQuery.RecuperaListagemCasoTesteParametroExecucaoPorCritica(req.params.criticaId); 
+
+      return RetornoRequest.Response(parametros, null, res, HttpStatusCode.OK);
+    } catch (error: any) {
+      RetornoRequest.Response(error, null, res, HttpStatusCode.BAD_REQUEST);
+    }
+  }
+
+  
+  public async listarPorCasoTeste(req: any, res: any) {
+    try {
+  
+      const parametros  =  await RepositoryQuery.RecuperaListagemCasoTesteParametroExecucaoPorCasoTeste(req.params.casoTesteId); 
 
       return RetornoRequest.Response(parametros, null, res, HttpStatusCode.OK);
     } catch (error: any) {

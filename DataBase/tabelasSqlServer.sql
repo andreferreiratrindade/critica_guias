@@ -8,8 +8,6 @@ drop table if exists CasoTesteMock
 drop table if exists CasoTesteColunaMock
 drop table if exists CasoTeste
 drop table if exists CasoTesteParametroExecucao
-drop table if exists Teste
-
 drop table if exists CriticaParametro
 drop table if exists Critica
 drop table if exists ParametroTipo
@@ -104,7 +102,7 @@ create table ParametroTipo(
 )
 
 create table Critica(
-    CriticaId int identity(1,1) primary key, 
+    criticaId int identity(1,1) primary key, 
     NmeCritica varchar(500) not null, 
     DesCritica text not null, 
     NroCritica int not null, 
@@ -118,28 +116,22 @@ create table CriticaParametro(
     ParametroTipoId int not null,
     NmeParametro varchar(250) not null, 
     
-    CONSTRAINT FK_Critica FOREIGN KEY (CriticaId)
-    REFERENCES Critica(CriticaId),
+    CONSTRAINT FK_Critica FOREIGN KEY (criticaId)
+    REFERENCES Critica(criticaId),
 
     CONSTRAINT FK_ParametroTipo FOREIGN KEY (ParametroTipoId)
     REFERENCES ParametroTipo(ParametroTipoId)
 )
 
-create table Teste(
-    TesteId int identity(1,1) primary key, 
-    CriticaId int not null,
-    CONSTRAINT FK_Teste_Critica FOREIGN KEY (CriticaId)
-    REFERENCES Critica(CriticaId),
 
-)
 
 create table TesteConfiguracaoMock(
     TesteConfiguracaoMockId int identity(1,1) primary key,  
-    TesteId int not null,
+    CriticaId int not null,
     NmeTabela varchar(500) not null,
 
-    CONSTRAINT FK_TesteConfiguracaoMock_Teste FOREIGN KEY (TesteId)
-    REFERENCES Teste(TesteId),
+    CONSTRAINT FK_TesteConfiguracaoMock_Critica FOREIGN KEY (criticaId)
+    REFERENCES Critica(criticaId),
 
 )
 
@@ -159,13 +151,14 @@ create table TesteConfiguracaoColunaMock(
 
 create table CasoTeste(
     CasoTesteId int identity(1,1) primary key, 
-    TesteId int not null,
+    criticaId int not null,
     CasoTesteSituacaoId smallint not null,
     NmeCasoTeste varchar(250) not null, 
     NmeEsperado varchar(500), 
     NmeAtual varchar(500),
-    CONSTRAINT FK_CasoTeste_Teste FOREIGN KEY (TesteId)
-    REFERENCES Teste(TesteId),
+
+    CONSTRAINT FK_CasoTeste_Critica FOREIGN KEY (criticaId)
+    REFERENCES Critica(criticaId),
 
     CONSTRAINT FK_CasoTeste_CasoTesteSituacao FOREIGN KEY (CasoTesteSituacaoId)
     REFERENCES CasoTesteSituacao(CasoTesteSituacaoId),
@@ -214,8 +207,7 @@ insert into Prestador_Mock values(1, 'Prestador 1', 1, '20210909')
 insert into Prestador_Mock values(2, 'Prestador 2', 2, '20210909')
 
 
-insert into Critica values('0001 - Prestador não encontrado', 'Valida se contem prestador na base de dados', 1,'critica_ans_0001')
-insert into Critica values('0002 - Beneficiario não encontrado', 'Valida se contem beneficiário na base de dados', 2,'critica_ans_0002')
+
 
 insert into ParametroTipo values(1, 'int')
 insert into ParametroTipo values(2, 'varchar')
@@ -229,20 +221,26 @@ execute aplicacao.dbo.monta_parametro_critica
 -- Criando primeiro teste
 
 declare @TesteConfiguracaoMockId int = 0
-,   @TesteId int = 0
+,   @CriticaId int = 0
 ,   @CasoTesteId int = 0
 ,   @TesteConfiguracaoColunaMockId int = 0
-insert into Teste values(1)
-set @TesteId = @@IDENTITY
 
-insert into TesteConfiguracaoMock values(@TesteId, 'PlanoSaude.dbo.Prestador')
+insert into Critica values('0001 - Prestador não encontrado', 'Valida se contem prestador na base de dados', 1,'critica_ans_0001')
+
+set @CriticaId = @@IDENTITY
+
+insert into Critica values('0002 - Beneficiario não encontrado', 'Valida se contem beneficiário na base de dados', 2,'critica_ans_0002')
+
+
+
+insert into TesteConfiguracaoMock values(@CriticaId, 'PlanoSaude.dbo.Prestador')
 
 set @TesteConfiguracaoMockId = @@IDENTITY
 
 insert into TesteConfiguracaoColunaMock values(@TesteConfiguracaoMockId, 1,  'PrestadorId')
 set @TesteConfiguracaoColunaMockId = @@IDENTITY
 
-insert into CasoTeste values(@TesteId, 1, 'Valida prestador', '', null)
+insert into CasoTeste values(@CriticaId, 1, 'Valida prestador', '', null)
 set @CasoTesteId = @@IDENTITY
 
 insert into CasoTesteColunaMock values(@CasoTesteId, @TesteConfiguracaoColunaMockId,'123')
@@ -251,7 +249,7 @@ insert into CasoTesteColunaMock values(@CasoTesteId, @TesteConfiguracaoColunaMoc
 insert into CasoTesteParametroExecucao values(@CasoTesteId,1, '1')
 
 
-insert into CasoTeste values(@TesteId, 1 , 'Valida prestador não encontrado na base', 'Prestador não encontrado', null)
+insert into CasoTeste values(@CriticaId, 1 , 'Valida prestador não encontrado na base', 'Prestador não encontrado', null)
 set @CasoTesteId = @@IDENTITY
 
 insert into CasoTesteColunaMock values(@CasoTesteId, @TesteConfiguracaoColunaMockId,'123')

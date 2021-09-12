@@ -9,7 +9,7 @@ export class Critica extends Model {
             primaryKey:true,
             autoIncrement : true})
     
-    idCritica !: number;
+    criticaId !: number;
 
     @Column(DataType.STRING)
     nmeCritica !: string;
@@ -19,6 +19,9 @@ export class Critica extends Model {
 
     @Column(DataType.INTEGER)
     nroCritica!:number;
+
+    @Column(DataType.STRING)
+    nmeStoredProcedure!:number;
 
 }
 

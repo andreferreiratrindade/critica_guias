@@ -21,10 +21,8 @@ declare @Parametros nvarchar(max)
     -- Recupera critica para execucao
     select @Sp_Critica = 'aplicacao.dbo.' + critica.NmeStoredProcedure
     from PlanoSaude.dbo.CasoTeste casoTeste
-        inner join PlanoSaude.dbo.Teste teste
-        on teste.TesteId = casoTeste.TesteId
         inner join PlanoSaude.dbo.Critica critica
-        on critica.CriticaId = teste.CriticaId
+        on critica.criticaId = casoTeste.criticaId
     where casoTeste.CasoTesteId = @CasoTesteId
 
     set @query =  @Sp_Critica + ' ' + @Parametros + ', @MsgRetorno = @Atual output'
