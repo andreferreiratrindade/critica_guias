@@ -113,8 +113,8 @@ module.exports = configure(function (/* ctx */) {
       workboxPluginMode: 'GenerateSW', // 'GenerateSW' or 'InjectManifest'
       workboxOptions: {}, // only for GenerateSW
       manifest: {
-        name: `Simple Flash Card`,
-        short_name: `Simple Flash Card`,
+        name: `Critica de guias`,
+        short_name: `Critica de guias`,
         description: `A Quasar Framework app`,
         display: 'standalone',
         orientation: 'portrait',

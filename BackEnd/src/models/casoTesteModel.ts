@@ -9,22 +9,22 @@ export class CasoTeste extends Model {
             primaryKey:true,
             autoIncrement : true})
     
-    CasoTesteId !: number;
+    casoTesteId !: number;
 
     @Column(DataType.INTEGER)
-    CriticaId !: number;
+    criticaId !: number;
 
     @Column(DataType.INTEGER)
-    CasoTesteSituacaoId !: number;
+    casoTesteSituacaoId !: number;
 
     @Column(DataType.STRING)
-    NmeCasoTeste!:string;
+    nmeCasoTeste!:string;
 
     @Column(DataType.STRING)
-    NmeEsperado!:number;
+    nmeEsperado!:number;
 
     @Column(DataType.STRING)
-    NmeAtual!:number;
+    nmeAtual!:number;
 
 }
 

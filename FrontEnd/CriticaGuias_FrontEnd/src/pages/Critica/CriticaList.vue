@@ -30,7 +30,6 @@
 import { Component, Vue } from "vue-property-decorator";
 import { CriticaService } from "../../services/CriticaService";
 import { _modelsInput } from "./../../models/_modelsInput";
-import { CriticaTesteService } from "./../../services/CriticaTesteService";
 
 @Component
 export default class CriticaList extends Vue {

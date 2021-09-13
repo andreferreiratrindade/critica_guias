@@ -9,5 +9,6 @@ export namespace Constants{
     export class CasoTesteSituacao{
 
         static AGUARDANDO_PROCESSAMENTO : number = 1
+        static EM_EDICAO : number = 6
     }
 }

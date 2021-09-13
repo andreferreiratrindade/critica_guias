@@ -196,6 +196,7 @@ insert  into CasoTesteSituacao values(2, 'Processando')
 insert  into CasoTesteSituacao values(3, 'Passou')
 insert  into CasoTesteSituacao values(4, 'Falhou')
 insert  into CasoTesteSituacao values(5, 'Erro')
+insert  into CasoTesteSituacao values(6, 'Em edição')
 
 delete from Beneficiario_Mock
 insert into Beneficiario_Mock values(100,'André', 09891023605)
@@ -217,7 +218,7 @@ insert into ParametroTipo values(4, 'decimal')
 
 
 execute aplicacao.dbo.monta_parametro_critica
-
+go
 -- Criando primeiro teste
 
 declare @TesteConfiguracaoMockId int = 0

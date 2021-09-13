@@ -2,7 +2,7 @@
   "name": "criticaguias_frontend",
   "version": "0.0.1",
   "description": "App de aprendizado por reforço",
-  "productName": "Simple flash card",
+  "productName": "Critica de guias",
   "author": "Andre <andreferreiratrindade@gmail.com>",
   "private": true,
   "scripts": {

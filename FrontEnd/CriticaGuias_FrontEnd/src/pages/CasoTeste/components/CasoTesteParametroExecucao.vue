@@ -1,41 +1,32 @@
 <template>
-    <q-expansion-item
-      expand-separator
-      label="Parametros de execução da critica - "
-      class="bg-blue"
-    >
-      <q-card>
-        <q-card-section>
-          <q-input
-            v-model="parametroExecucao.valorParametroExecucao"
-            v-for="parametroExecucao in casoTesteParametroExecucaoList"
-            v-bind:key="parametroExecucao.criticaParametroId"
-            type="text"
-            :label="parametroExecucao.nmeParametro"
-            filled
-          />
-
-        </q-card-section>
-      </q-card>
-    </q-expansion-item>
-
+  <div>
+    <q-input
+      v-model="parametroExecucao.valorParametroExecucao"
+      v-for="parametroExecucao in casoTesteParametroExecucaoList"
+      v-bind:key="parametroExecucao.criticaParametroId"
+      type="text"
+      :label="parametroExecucao.nmeParametro"
+      filled
+    />
+  </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { _modelsInput } from "../../../models/_modelsInput";
-import {CasoTesteParametroExecucaoService} from '../../../services/CasoTesteParametroExecucaoService'
+import { CasoTesteParametroExecucaoService } from "../../../services/CasoTesteParametroExecucaoService";
 
 @Component
 export default class CasoTesteParametroExecucao extends Vue {
   @Prop()
-  criticaId:number;
+  criticaId: number;
 
   @Prop()
-  casoTesteId : number;
+  casoTesteId: number;
 
-  private _casoTesteParametroExecucaoService !: CasoTesteParametroExecucaoService;
-  private casoTesteParametroExecucaoList: _modelsInput.CasoTesteParametroExecucao[] = [];
+  private _casoTesteParametroExecucaoService!: CasoTesteParametroExecucaoService;
+  private casoTesteParametroExecucaoList: _modelsInput.CasoTesteParametroExecucao[] =
+    [];
 
   public recuperaListagem() {
     this._casoTesteParametroExecucaoService
@@ -52,9 +43,9 @@ export default class CasoTesteParametroExecucao extends Vue {
   }
 
   created() {
-
-    this._casoTesteParametroExecucaoService = new CasoTesteParametroExecucaoService();
-  this.recuperaListagem();
+    this._casoTesteParametroExecucaoService =
+      new CasoTesteParametroExecucaoService();
+    this.recuperaListagem();
   }
 }
 </script>

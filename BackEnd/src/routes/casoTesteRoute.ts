@@ -24,8 +24,28 @@ export class CasoTesteRoute {
             return casoTesteService.adicionar(request,response);
         });
 
-        router.get("/:criticaId",(request: any,response:any)=>{
-            console.log("listagem");
+                
+        router.post("/atualizarNmeCasoTeste",(request: any,response:any)=>{
+            console.log("atualiza nmeCasoTeste");
+            let casoTesteService = new CasoTesteService(this._casoTesteRepository);
+            return casoTesteService.atualizarNmeCasoTeste(request,response);
+        });
+
+        router.post("/atualizarNmeEsperado",(request: any,response:any)=>{
+            console.log("atualiza NmeEsperado");
+            let casoTesteService = new CasoTesteService(this._casoTesteRepository);
+            return casoTesteService.atualizarNmeEsperado(request,response);
+        });
+
+        
+
+        router.get("/:casoTesteId",(request: any,response:any)=>{
+            console.log("Caso de teste por Id");
+            let casoTesteService = new CasoTesteService(this._casoTesteRepository);
+            return casoTesteService.recuperaPorId(request,response);
+        });
+
+        router.get("/listagem/:criticaId",(request: any,response:any)=>{
             let casoTesteService = new CasoTesteService(this._casoTesteRepository);
             return casoTesteService.listar(request,response);
         });

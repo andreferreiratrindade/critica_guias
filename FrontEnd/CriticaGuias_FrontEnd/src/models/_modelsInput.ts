@@ -11,10 +11,11 @@ export namespace _modelsInput{
 
 
     export interface CasoTeste{
+        casoTesteId: number | null,
         criticaId :number | null,
-        CasoTesteSituacaoId : number | null,
-        NmeCasoTeste : string | null,
-        NmeEsperado : string | null
+        casoTesteSituacaoId : number | null,
+        nmeCasoTeste : string | null,
+        nmeEsperado : string | null
     }
 
     export interface CrticaParametro{
