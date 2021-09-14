@@ -93,14 +93,14 @@ export default class CasoTesteList extends Vue {
 
   public editarCasoTeste(casoTesteId: number) {
     this.$router.push({
-      name: `manterCasoTeste`,
+      name: `atualizarCasoTeste`,
       params: { casoTesteId: casoTesteId, criticaId: this.criticaId },
     });
   }
 
   public novoCasoTeste() {
     this.$router.push({
-      path: `manterCasoTeste`,
+      name: `novoCasoTeste`,
       params: { criticaId: this.criticaId },
     });
   }

@@ -9,7 +9,7 @@ BEGIN
 declare @Retorno int = 0
     if(not exists(select 1 
                  from PlanoSaude.dbo.Beneficiario 
-                 where @BeneficiarioId = @BeneficiarioId))begin 
+                 where BeneficiarioId = @BeneficiarioId))begin 
 
         set @MsgRetorno = 'Beneficiario não encontrado'
         set @Retorno = 1

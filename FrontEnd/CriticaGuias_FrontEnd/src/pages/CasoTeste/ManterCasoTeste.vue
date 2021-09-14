@@ -31,6 +31,28 @@
         :done="step > 2"
       >
         <build-mock />
+
+        <q-expansion-item
+          expand-separator
+          label="Dados falsos preenchidos manualmente"
+          class="bg-blue"
+        >
+          <q-card>
+            <q-card-section>
+              <caso-teste-dependencia
+                ref="casoTesteDependencia"
+                :criticaId="casoTeste.criticaId"
+                :casoTesteId="casoTeste.casoTesteId"
+              />
+            </q-card-section>
+          </q-card>
+        </q-expansion-item>
+
+        <q-btn
+          color="primary"
+          label="Salvar e prosseguir"
+          @click="salvaCasoTesteDependencia"
+        />
       </q-step>
 
       <q-step
@@ -40,8 +62,14 @@
         :done="step > 3"
       >
         <caso-teste-parametro-execucao
-          :criticaId="this.criticaId"
-          :casoTesteId="this.casoTesteId"
+          ref="casoTesteParametroExecucao"
+          :criticaId="casoTeste.criticaId"
+          :casoTesteId="casoTeste.casoTesteId"
+        />
+        <q-btn
+          color="primary"
+          label="Salvar e prosseguir"
+          @click="salvaCasoTesteParametroExecucao"
         />
       </q-step>
 
@@ -51,6 +79,12 @@
           type="text"
           label="Resultado esperado"
           filled
+        />
+
+        <q-btn
+          color="green"
+          label="Salvar e gerar caso de teste"
+          @click="salvaResultadoEsperado"
         />
       </q-step>
     </q-stepper>
@@ -62,31 +96,30 @@
 import BuildMock from "../BuildMock/components/BuildMock.vue";
 import { Component, Vue } from "vue-property-decorator";
 import { _modelsInput } from "../../models/_modelsInput";
+import { TesteValidacaoService } from "../../services/TesteValidacaoService";
 import { CasoTesteService } from "../../services/CasoTesteService";
 import CasoTesteParametroExecucao from "./components/CasoTesteParametroExecucao.vue";
+import CasoTesteDependencia from "./components/CasoTesteDependencia.vue";
 @Component({
-  components: { BuildMock, CasoTesteParametroExecucao },
+  components: { BuildMock, CasoTesteParametroExecucao, CasoTesteDependencia },
 })
 export default class ManterCasoTeste extends Vue {
   private _casoTesteService!: CasoTesteService;
-  private criticaId: number = 0;
-  private casoTesteId: number = 0;
-
+  private _testeValidacaoService!: TesteValidacaoService;
 
   step: number = 1;
-  private casoTeste: _modelsInput.CasoTeste = {
+  public casoTeste: _modelsInput.CasoTeste = {
     criticaId: null,
     casoTesteSituacaoId: null,
     nmeEsperado: null,
     nmeCasoTeste: null,
-    casoTesteId :null
+    casoTesteId: null,
   };
 
   async created() {
     this._casoTesteService = new CasoTesteService();
-    this.criticaId = this.$route.params.criticaId;
-    this.casoTesteId = this.$route.params.casoTesteId;
-
+    this._testeValidacaoService = new TesteValidacaoService();
+    this.casoTeste.criticaId = this.$route.params.criticaId;
     if (this.$route.params.casoTesteId) {
       this.casoTeste = await this._casoTesteService.recuperaPorId(
         this.$route.params.casoTesteId
@@ -95,7 +128,6 @@ export default class ManterCasoTeste extends Vue {
   }
 
   public prosseguir() {
-    debugger
     this.$refs.stepper.next();
   }
 
@@ -103,24 +135,41 @@ export default class ManterCasoTeste extends Vue {
     this.$refs.stepper.previous();
   }
 
-public salvaNomeCasoTeste(){
-  if(this.casoTeste.casoTesteId > 0 ){
-
-      this.atualizaNomeCasoTeste();
-  }else{
-      this.adicionaNovoCasoTeste();
+  public salvaCasoTesteParametroExecucao() {
+    this.$refs.casoTesteParametroExecucao.salvaCasoTesteParametroExecucao();
+    this.prosseguir();
   }
-}
-  
 
-  public adicionaNovoCasoTeste(){
- this._casoTesteService
-      .adicionar (this.casoTeste)
+  public salvaCasoTesteDependencia() {
+    this.$refs.casoTesteDependencia.salvaValorColunaDependencia();
+    this.prosseguir();
+  }
+  public salvaNomeCasoTeste() {
+    if (this.casoTeste.casoTesteId > 0) {
+      this.atualizaNomeCasoTeste();
+    } else {
+      this.adicionaNovoCasoTeste();
+    }
+  }
+
+  public adicionaNovoCasoTeste() {
+    this._casoTesteService
+      .adicionar(this.casoTeste)
       .then((result: any) => {
-        this.prosseguir()
+        debugger
+
         this.$q.notify(result);
+
+        if (result.progress) {
+          this.casoTeste.casoTesteId = result.objResult.casoTesteId;
+
+          this.prosseguir();
+        }
       })
       .catch((err: any) => {
+        console.log("catch");
+
+        console.log(err);
         this.$q.notify(err);
       })
       .finally(() => {
@@ -132,8 +181,12 @@ public salvaNomeCasoTeste(){
     this._casoTesteService
       .atualizaNmeCasoTeste(this.casoTeste)
       .then((result: any) => {
-        this.prosseguir()
+        debugger
         this.$q.notify(result);
+
+        if (result.progress) {
+          this.prosseguir();
+        }
       })
       .catch((err: any) => {
         this.$q.notify(err);
@@ -141,6 +194,21 @@ public salvaNomeCasoTeste(){
       .finally(() => {
         this.$q.loading.hide();
       });
+  }
+
+  public async salvaResultadoEsperado() {
+    let atualizaResultadoEsperado =
+      await this._casoTesteService.atulaizaNmeEsperado(this.casoTeste);
+
+    let geraCasoTeste =
+      await this._testeValidacaoService.executarTestePorCasoTeste(
+        this.casoTeste
+      );
+
+    this.$router.push({
+      name: `casoTesteList`,
+      params: { criticaId: this.casoTeste.criticaId },
+    });
   }
 }
 </script>

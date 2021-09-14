@@ -8,7 +8,8 @@ const routes: RouteConfig[] = [
       { path: '', component: () => import('pages/Critica/CriticaList.vue'), name:"criticaList" },
       { path: 'ManterCritica', name: "ManterCritica", component: () => import('pages/Critica/ManterCritica.vue') },
       { path: 'casoTeste/casoTesteList/:criticaId', name: "casoTesteList", component: () => import('pages/CasoTeste/casoTesteList.vue') },
-      { path: 'casoTeste/casoTesteList/:criticaId/manterCasoTeste/:casoTesteId', name: "manterCasoTeste", component: () => import('pages/CasoTeste/manterCasoTeste.vue') },
+      { path: 'casoTeste/casoTesteList/:criticaId/manterCasoTeste/:casoTesteId', name: "atualizarCasoTeste", component: () => import('pages/CasoTeste/manterCasoTeste.vue') },
+      { path: 'casoTeste/casoTesteList/:criticaId/manterCasoTeste', name: "novoCasoTeste", component: () => import('pages/CasoTeste/manterCasoTeste.vue') },
     ]
   },
 

@@ -18,13 +18,13 @@ export class CasoTeste extends Model {
     casoTesteSituacaoId !: number;
 
     @Column(DataType.STRING)
-    nmeCasoTeste!:string;
+    nmeCasoTeste!:string ;
 
     @Column(DataType.STRING)
-    nmeEsperado!:number;
+    nmeEsperado!:string;
 
     @Column(DataType.STRING)
-    nmeAtual!:number;
+    nmeAtual!:string;
 
 }
 

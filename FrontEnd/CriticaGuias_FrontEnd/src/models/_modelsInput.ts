@@ -53,5 +53,20 @@ export namespace _modelsInput{
         parametroTipoId :number | null, 
         nmeParametro : string | null
     }
+
+    export interface CriticaTabelaDependencia {
+        criticaTabelaDependenciaId : number | null,
+        criticaId : number | null, 
+        nmeTabela : string | null
+
+    }
+
+    export interface CasoTesteDependenciaColuna{
+        criticaTabelaDependenciaColunaId : number | null, 
+        nmeColuna : string | null,
+        casoTesteColunaMockId : number | null,
+        casoTesteId : number| null
+        valorColunaMock : string | null
+    }
 }
  

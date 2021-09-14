@@ -7,18 +7,20 @@ export class CasoTesteParametroExecucao extends Model {
 
     @Column({type:DataType.INTEGER, 
             primaryKey:true,
-            autoIncrement : true})
+            autoIncrement : true,
+            allowNull:true
+           })
     
-    CasoTesteParametroExecucaoId !: number;
+    casoTesteParametroExecucaoId !: number;
 
     @Column(DataType.INTEGER)
-    CasoTesteId !: number;
+    casoTesteId !: number;
 
     @Column(DataType.INTEGER)
-    CriticaParametroId !: number;
+    criticaParametroId !: number;
 
     @Column(DataType.STRING)
-    ValorParametroExecucao!:string;
+    valorParametroExecucao!:string;
 
 }
 

@@ -58,6 +58,10 @@ export class CriticaService {
 
       let resultCreate = await this._criticaRepository.create(critica, { isNewRecord: true })
 
+      await RepositoryQuery.ExecutaMonta_parametro_critica(resultCreate.criticaId); 
+
+      await RepositoryQuery.ExecutaMonta_critica_tabela_dependencia(); 
+
       return RetornoRequest.Response(resultCreate, null, res, HttpStatusCode.OK);
     } catch (error: any) {
       RetornoRequest.Response(error, null, res, HttpStatusCode.BAD_REQUEST);

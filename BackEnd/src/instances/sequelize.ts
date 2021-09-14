@@ -5,6 +5,7 @@ import { CriticaParametro } from '../models/criticaParametroModel';
 import tedious from 'tedious';
 import { CasoTeste } from '../models/casoTesteModel';
 import { CasoTesteParametroExecucao } from '../models/casoTesteParametroExecucaoModel';
+import { CasoTesteColunaMock } from '../models/CasoTesteColunaMockModel';
 const dataBaseInfo = Config.databaseInfo();
 
 console.log(dataBaseInfo);
@@ -12,7 +13,7 @@ export const sequelize = new Sequelize(dataBaseInfo.db, dataBaseInfo.username, d
   dialect: "mssql",
   port: dataBaseInfo.port,
   host:dataBaseInfo.host,
-  models: [Critica, CriticaParametro, CasoTeste, CasoTesteParametroExecucao],
+  models: [Critica, CriticaParametro, CasoTeste, CasoTesteParametroExecucao, CasoTesteColunaMock],
   repositoryMode: true,
   dialectModule : tedious,
   logging:  dataBaseInfo.logging 

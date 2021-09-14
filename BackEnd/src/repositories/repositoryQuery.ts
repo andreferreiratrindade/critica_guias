@@ -85,6 +85,7 @@ export class RepositoryQuery {
     select CriticaParametro.criticaParametroId
 , CriticaParametro.criticaId
 , CriticaParametro.nmeParametro 
+, casoTesteId = :casoTesteId
 , CasoTesteParametroExecucao.casoTesteParametroExecucaoId
 , CasoTesteParametroExecucao.valorParametroExecucao
 from PlanoSaude.dbo.CriticaParametro CriticaParametro
@@ -110,5 +111,64 @@ left join PlanoSaude.dbo.CasoTesteParametroExecucao CasoTesteParametroExecucao
     `,
       { replacements: { criticaId: criticaId }, type: 'SELECT' });
   }
+
+  static async RecuperaListagemCriticaTabelaDependencia(criticaId: number) {
+    return await sequelize.query(`
+
+    select CriticaTabelaDependencia.criticaTabelaDependenciaId
+    , CriticaTabelaDependencia.nmeTabela 
+    
+    from PlanoSaude.dbo.CriticaTabelaDependencia CriticaTabelaDependencia
+    
+        where CriticaTabelaDependencia.CriticaId = :criticaId
+    `,
+      { replacements: { criticaId: criticaId }, type: 'SELECT' });
+  }
+
+  static async RecuperaListagemCasoTesteColunaMock(criticaTabelaDependenciaId: number, casoTesteId: number) {
+
+    console.log(criticaTabelaDependenciaId)
+    console.log(casoTesteId)
+    return await sequelize.query(`
+
+    select CriticaTabelaDependenciaColuna.criticaTabelaDependenciaColunaId, 
+    CriticaTabelaDependenciaColuna.nmeColuna,
+    casoTesteColunaMockId = casoTesteColunaMock.casoTesteColunaMockId ,
+    casoTesteId = casoTesteColunaMock.casoTesteId,
+    valorColunaMock = casoTesteColunaMock.valorColunaMock
+    
+    from PlanoSaude.dbo.CriticaTabelaDependenciaColuna CriticaTabelaDependenciaColuna
+        left join PlanoSaude.dbo.CasoTesteColunaMock casoTesteColunaMock
+            on casoTesteColunaMock.CriticaTabelaDependenciaColunaId = CriticaTabelaDependenciaColuna.CriticaTabelaDependenciaColunaId
+            and casoTesteColunaMock.CasoTesteId = :casoTesteId
+        where CriticaTabelaDependenciaColuna.criticaTabelaDependenciaId = :criticaTabelaDependenciaId
+    `,
+      { replacements: { criticaTabelaDependenciaId: criticaTabelaDependenciaId, casoTesteId: casoTesteId }, type: 'SELECT' });
+  }
+
+
+  static async ExecuteGerarCasoTeste(casoTesteId: number) {
+    return await sequelize.query(`
+execute aplicacao.dbo.Run_Teste_Por_CasoTeste @casoTesteId = :casoTesteId
+    `,
+      { replacements: { casoTesteId: casoTesteId } });
+  }
+
+  static async ExecutaMonta_parametro_critica(criticaId: number) {
+    return await sequelize.query(`
+execute aplicacao.dbo.monta_parametro_critica @criticaId = :criticaId
+    `,
+      { replacements: { criticaId: criticaId } });
+  }
+
+
+  static async ExecutaMonta_critica_tabela_dependencia() {
+    return await sequelize.query(`
+execute aplicacao.dbo.monta_critica_tabela_dependencia 
+    `);
+  }
+
+
+
 
 }

@@ -24,12 +24,7 @@ export class CasoTesteService {
       .withMessage("Campo de preenchimento obrigatório")
       .run(req);
 
-    await check("CasoTesteSituacaoId")
-      .notEmpty()
-      .withMessage("Campo de preenchimento obrigatório")
-      .run(req);
-
-    await check("NmeCasoTeste")
+    await check("nmeCasoTeste")
       .notEmpty()
       .withMessage("Campo Nome é de preenchimento obrigatório")
       .run(req);
@@ -55,10 +50,7 @@ export class CasoTesteService {
     .withMessage("Campo de preenchimento obrigatório")
     .run(req);
 
-    await check("nmeEsperado")
-      .notEmpty()
-      .withMessage("Campo Nome é de preenchimento obrigatório")
-      .run(req);
+
   }
 
   public async adicionar(req: any, res: any) {
@@ -179,24 +171,25 @@ export class CasoTesteService {
     }
   }
 
-  // public async recuperaPorCriticaId(req: any, res: any) {
-  //   try {
-  //     await this.recuperaPorCasoTesteIdValidacao(req);
+  public async gerarCasoTeste(req: any, res: any) {
+    try {
+      console.log("Teste de nome caso teste");
+      console.log(req.body);
 
-  //     const result = validationResult(req);
-  //     if (!result.isEmpty()) {
-  //       return res.status(400).json({ errors: result.array() });
-  //     }
+      let casoTeste = {
+        nmeCasoTeste: req.body.casoTesteId
+      };
 
-  //     let casoTeste = { casoTesteid: req.query.casoTesteId };
-  //     const u = await this._casoTesteRepository.findOne({ where: casoTeste });
+      const parametros = await RepositoryQuery.ExecuteGerarCasoTeste(req.body.casoTesteId);
 
-  //     return RetornoRequest.Response(u, null, res, HttpStatusCode.OK);
 
-  //   } catch (error: any) {
-  //     RetornoRequest.Response(error, null, res, HttpStatusCode.BAD_REQUEST);
-  //   }
-  // }
+      return RetornoRequest.Response(parametros, null, res, HttpStatusCode.OK);
+    } catch (error: any) {
+      RetornoRequest.Response(error, null, res, HttpStatusCode.BAD_REQUEST);
+    }
+
+
+  }
 
   
 

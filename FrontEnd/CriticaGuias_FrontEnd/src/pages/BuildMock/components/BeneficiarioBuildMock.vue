@@ -1,7 +1,7 @@
 
 <template>
   <div class="q-pa-md">
-    <q-expansion-item expand-separator label="Beneficiários" class="bg-blue">
+    <q-expansion-item expand-separator label="Beneficiários" class="bg-warning">
       <q-card>
         <q-card-section>
           <q-table

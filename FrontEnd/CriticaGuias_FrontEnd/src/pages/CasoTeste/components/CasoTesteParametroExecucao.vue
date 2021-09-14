@@ -47,6 +47,21 @@ export default class CasoTesteParametroExecucao extends Vue {
       new CasoTesteParametroExecucaoService();
     this.recuperaListagem();
   }
+
+  salvaCasoTesteParametroExecucao() {
+    debugger
+    this.casoTesteParametroExecucaoList.forEach((x) => {
+      x.casoTesteId = this.casoTesteId
+      this._casoTesteParametroExecucaoService
+        .adicionar(x)
+        .catch((err: any) => {
+          this.$q.notify(err);
+        })
+        .finally(() => {
+          this.$q.loading.hide();
+        });
+    });
+  }
 }
 </script>
 

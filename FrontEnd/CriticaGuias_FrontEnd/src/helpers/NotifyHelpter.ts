@@ -3,18 +3,19 @@ import { _helperModel } from "./_helperModel"
 
 class NotifyHelper {
 
-    criaNotify(mensagem: string, tipo: string): _helperModel.Notify {
+    criaNotify(mensagem: string, tipo: string, objResult? : any): _helperModel.Notify {
         let notify: _helperModel.Notify = {
             message: mensagem,
             progress: true,
-            type: tipo
+            type: tipo, 
+            objResult : objResult
         }
         return notify;
     }
 
-    sucesso(msg?: string): _helperModel.Notify {
+    sucesso(msg?: string, objResult? : any): _helperModel.Notify {
         let mensagem = msg ?? _helperConstants.MsgGenerica.SUCESSO
-        return this.criaNotify(mensagem, _helperConstants.Notify.POSITIVE);
+        return this.criaNotify(mensagem, _helperConstants.Notify.POSITIVE, objResult);
     }
 
 
