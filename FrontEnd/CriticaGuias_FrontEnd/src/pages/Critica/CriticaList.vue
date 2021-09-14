@@ -1,6 +1,12 @@
-<template>
-  <div class="q-pa-md">
-    Criticas
+ <template>
+  <div class="relative-position">
+    <q-item class="bg-grey-3">
+
+      <q-item-section class="text-subtitle1 text-black"
+        >Criticas</q-item-section
+      >
+    </q-item>
+    <div class="q-pa-md">
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
       <q-btn fab icon="add" color="positive" @click="Novo">
         <q-tooltip anchor="center left" self="center right" :offset="[10, 10]">
@@ -19,10 +25,11 @@
       </template>
       <template v-slot:body-cell-criticaId="props">
         <q-td :props="props">
-         <q-btn round color="primary" icon="shopping_cart" @click="visualizarCasoTeste(props.value)"/>
+         <q-btn round color="primary" icon="timeline" @click="visualizarCasoTeste(props.value)"/>
         </q-td>
       </template>
     </q-table>
+  </div>
   </div>
 </template>
 

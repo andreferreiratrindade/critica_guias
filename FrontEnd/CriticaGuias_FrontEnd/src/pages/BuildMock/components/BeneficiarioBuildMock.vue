@@ -1,8 +1,10 @@
 
 <template>
   <div class="q-pa-md">
-    <q-expansion-item expand-separator label="Beneficiários" class="bg-warning">
-      <q-card>
+    <q-expansion-item expand-separator label="Beneficiários" class="bg-warning"
+       header-class="text-black text-h6"
+    >
+      <q-card bordered>
         <q-card-section>
           <q-table
             title=""

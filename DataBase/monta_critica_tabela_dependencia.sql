@@ -52,7 +52,7 @@ BEGIN
       inner join PlanoSaude.dbo.CriticaTabelaDependencia criticaTabelaDependencia
       on criticaTabelaDependencia.NmeTabela =  referencedEntities.referenced_database_name + '.' + referencedEntities.referenced_schema_name + '.' + referencedEntities.referenced_entity_name
     where criticaTabelaDependencia.criticaId = @CriticaId
-    and referencedEntities.referenced_minor_name is not null
+      and referencedEntities.referenced_minor_name is not null
   END
 
   return @Retorno

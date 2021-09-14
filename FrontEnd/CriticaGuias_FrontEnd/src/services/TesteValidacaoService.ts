@@ -25,4 +25,25 @@ export class TesteValidacaoService {
         }
     }
 
+    
+
+    public async executarTestePorCritica(conteudo: _modelsInput.Critica) {
+        let parameters: IHttpClientRequestParameters
+            = {
+            url: Config.api + "/testeValidacao/executarTestePorCritica",
+            requiresToken: true,
+            payload: conteudo
+        }
+        try {
+            let result = await HttpClient.post(parameters);
+            let notify = result.ok ? NotifyHelper.sucesso() : NotifyHelper.erro(result.error);
+
+            return notify;
+        } catch (error) {
+            return NotifyHelper.erro(error)
+        }
+    }
+
+    
+
 }

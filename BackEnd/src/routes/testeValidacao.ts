@@ -17,6 +17,14 @@ export class TesteValidacaoRoute {
             return casoTesteService.executarTestePorCasoTeste(request,response);
         });
 
+
+        router.post("/executarTestePorCritica",(request: any,response:any)=>{
+            console.log("executarTestePorCritica");
+            let casoTesteService = new TesteValidacaoService();
+            return casoTesteService.executarTestePorCritica(request,response);
+        });
+
+        
       
         return router;
     }

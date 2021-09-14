@@ -3,8 +3,10 @@
       expand-separator
       label="Dados falsos preenchidos automaticamente"
       class="bg-blue"
+       header-class="text-white text-h6"
+
     >
-      <q-card>
+      <q-card bordered>
         <q-card-section>
           <prestador-build-mock />
           <beneficiario-build-mock />

@@ -31,6 +31,7 @@ declare @Retorno int = 0
     and (@criticaId is null or @criticaId = critica.criticaId)
 
 
+    execute aplicacao.dbo.monta_critica_tabela_dependencia
 
     return @Retorno
 

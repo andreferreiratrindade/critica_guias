@@ -49,7 +49,6 @@ export default class CasoTesteParametroExecucao extends Vue {
   }
 
   salvaCasoTesteParametroExecucao() {
-    debugger
     this.casoTesteParametroExecucaoList.forEach((x) => {
       x.casoTesteId = this.casoTesteId
       this._casoTesteParametroExecucaoService

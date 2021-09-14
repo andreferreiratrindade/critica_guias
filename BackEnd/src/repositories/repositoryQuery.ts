@@ -93,6 +93,7 @@ inner join PlanoSaude.dbo.CasoTeste casoteste
     on casoteste.CriticaId = CriticaParametro.CriticaId
 left join PlanoSaude.dbo.CasoTesteParametroExecucao CasoTesteParametroExecucao
     on casoteste.CasoTesteId = CasoTesteParametroExecucao.CasoTesteId
+    and CasoTesteParametroExecucao.CriticaParametroId = CriticaParametro.CriticaParametroId
     where casoteste.casoTesteId = :casoTesteId
     `,
       { replacements: { casoTesteId: casoTesteId }, type: 'SELECT' });
@@ -156,16 +157,9 @@ execute aplicacao.dbo.Run_Teste_Por_CasoTeste @casoTesteId = :casoTesteId
 
   static async ExecutaMonta_parametro_critica(criticaId: number) {
     return await sequelize.query(`
-execute aplicacao.dbo.monta_parametro_critica @criticaId = :criticaId
+execute aplicacao.dbo.run_teste_por_critica @criticaId = :criticaId
     `,
       { replacements: { criticaId: criticaId } });
-  }
-
-
-  static async ExecutaMonta_critica_tabela_dependencia() {
-    return await sequelize.query(`
-execute aplicacao.dbo.monta_critica_tabela_dependencia 
-    `);
   }
 
 

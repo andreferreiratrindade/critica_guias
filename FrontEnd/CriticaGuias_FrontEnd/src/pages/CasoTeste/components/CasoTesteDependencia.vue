@@ -6,8 +6,9 @@
       expand-separator
       :label="dependencia.nmeTabela"
       class="bg-warning"
+       header-class="text-black text-h6"
     >
-      <q-card>
+      <q-card bordered>
         <q-card-section> 
             <caso-teste-dependencia-coluna 
               :ref="'casoTesteDependenciaColuna_' + dependencia.criticaTabelaDependenciaId"

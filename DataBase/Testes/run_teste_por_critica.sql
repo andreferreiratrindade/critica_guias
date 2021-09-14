@@ -25,6 +25,7 @@ BEGIN
         inner join PlanoSaude.dbo.Critica critica
         on critica.criticaId = casoTeste.criticaId
     where casoTeste.criticaId = @criticaId
+    and casoTeste.CasoTesteSituacaoId in (3,4)
 
     while(exists(select 1
     from #CasoTeste))begin

@@ -1,8 +1,20 @@
  <template>
+ <div class="relative-position">
+    <q-item class="bg-grey-3">
+      <q-btn flat round color="black" icon="arrow_back" @click="voltar()" />
+      <q-item-section class="text-subtitle1 text-black"
+        >Casos de teste</q-item-section
+      >
+    </q-item>
   <div class="q-pa-md">
-    Casos de teste
+    
 
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
+      <q-btn fab icon="playlist_play" color="blue" @click="executarTestesPorCritica">
+        <q-tooltip anchor="center left" self="center right" :offset="[10, 10]">
+          <strong>Testar todos os casos</strong>
+        </q-tooltip>
+      </q-btn>
       <q-btn fab icon="add" color="positive" @click="novoCasoTeste">
         <q-tooltip anchor="center left" self="center right" :offset="[10, 10]">
           <strong>Casos de teste</strong>
@@ -30,15 +42,18 @@
       </template>
     </q-table>
   </div>
+  </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import { TesteValidacaoService } from "../../services/TesteValidacaoService";
 import { _modelsInput } from "./../../models/_modelsInput";
 import { CasoTesteService } from "./../../services/CasoTesteService";
 @Component
 export default class CasoTesteList extends Vue {
   private _casoTesteService!: CasoTesteService;
+  private _testeValidacaoService !: TesteValidacaoService;
   private criticaId: number = 0;
   public casoTestes: any[] = [];
   public columns: any[] = [
@@ -87,6 +102,7 @@ export default class CasoTesteList extends Vue {
 
   created() {
     this._casoTesteService = new CasoTesteService();
+    this._testeValidacaoService = new TesteValidacaoService();
     this.criticaId = this.$route.params.criticaId;
     this.recuperaListagem();
   }
@@ -102,6 +118,27 @@ export default class CasoTesteList extends Vue {
     this.$router.push({
       name: `novoCasoTeste`,
       params: { criticaId: this.criticaId },
+    });
+  }
+
+  public executarTestesPorCritica(){
+    this._testeValidacaoService
+      .executarTestePorCritica({criticaId:this.criticaId})
+      .then((result: any) => {
+        this.recuperaListagem();
+        this.$q.notify(result);
+      })
+      .catch((err: any) => {
+        this.$q.notify(err);
+      })
+      .finally(() => {
+        this.$q.loading.hide();
+      });
+  }
+
+  public voltar() {
+    this.$router.push({
+      name: `criticaList`
     });
   }
 }

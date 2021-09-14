@@ -232,7 +232,6 @@ insert into CasoTeste values(@CriticaId, 1, 'Valida prestador', '', null)
 set @CasoTesteId = @@IDENTITY
 
 execute aplicacao.dbo.monta_parametro_critica
-execute aplicacao.dbo.monta_critica_tabela_dependencia
 
 
 select top 1 @CriticaTabelaDependenciaColunaId =  coluna.CriticaTabelaDependenciaColunaId
