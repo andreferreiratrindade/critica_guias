@@ -2,8 +2,8 @@ use Aplicacao
 go
 
 
-create or ALTER PROCEDURE run_teste_por_critica
-    @criticaId int
+create or ALTER PROCEDURE run_teste_por_stored_procedure
+    @StoredProcedureId int
 AS
 BEGIN
     declare @Retorno int = 0
@@ -19,13 +19,13 @@ BEGIN
     drop table if exists #CasoTeste
 
     select casoTeste.CasoTesteId
-    , query =  'aplicacao.dbo.teste_' + critica.NmeStoredProcedure
+    , query =  'aplicacao.dbo.teste_' + StoredProcedure.NmeStoredProcedure
     into #CasoTeste
-    from PlanoSaude.dbo.CasoTeste casoTeste
-        inner join PlanoSaude.dbo.Critica critica
-        on critica.criticaId = casoTeste.criticaId
-    where casoTeste.criticaId = @criticaId
-    and casoTeste.CasoTesteSituacaoId in (3,4)
+    from teste.dbo.CasoTeste casoTeste
+        inner join teste.dbo.StoredProcedure StoredProcedure
+        on StoredProcedure.StoredProcedureId = casoTeste.StoredProcedureId
+    where casoTeste.StoredProcedureId = @StoredProcedureId
+        and casoTeste.CasoTesteSituacaoId in (3,4,1)
 
     while(exists(select 1
     from #CasoTeste))begin

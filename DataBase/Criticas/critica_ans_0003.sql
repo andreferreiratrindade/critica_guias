@@ -8,24 +8,25 @@ create or ALTER PROCEDURE critica_ans_0003
 AS
 BEGIN
 declare @Retorno int = 0
-    if(not exists(select 1 
-                 from PlanoSaude.dbo.Beneficiario 
-                 where BeneficiarioId = @BeneficiarioId))begin 
+, @ErroCount int = 0
 
-        set @MsgRetorno = 'Beneficiario não encontrado'
-        set @Retorno = 1
 
-    end 
+    execute @Retorno =  aplicacao.dbo.critica_ans_0001 
+    @PrestadorId = @PrestadorId,
+    @MsgRetorno  = @MsgRetorno output
 
-       
-    if(not exists(select 1 from PlanoSaude.dbo.Prestador where PrestadorId = @PrestadorId))begin 
+    set @ErroCount = @ErroCount + @Retorno
 
-        set @MsgRetorno = 'Prestador não encontrado'
-        set @Retorno = 1
+    execute @Retorno =  aplicacao.dbo.critica_ans_0002
+    @BeneficiarioId = @BeneficiarioId,
+    @MsgRetorno  = @MsgRetorno output
 
-    end 
 
-    return @Retorno
+    set @ErroCount = @ErroCount + @Retorno
+
+
+
+    return @ErroCount
 
 END
 GO

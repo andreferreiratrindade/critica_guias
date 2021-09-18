@@ -6,23 +6,23 @@ create or ALTER PROCEDURE teste_critica
     @Atual varchar(max) output
 AS
 BEGIN
-declare @Parametros nvarchar(max)
+    declare @Parametros nvarchar(max)
 , @Sp_Critica Nvarchar(max)
 , @query nvarchar(max)
 
     -- Recupera parametros para execução
-    SELECT @Parametros = COALESCE(@Parametros + ', ', '') +  criticaParametro.NmeParametro + ' = ' +  casoTesteParametroExecucao.ValorParametroExecucao
-    from PlanoSaude.dbo.CasoTesteParametroExecucao  casoTesteParametroExecucao
-        inner join PlanoSaude.dbo.CriticaParametro criticaParametro
-        on criticaParametro.CriticaParametroId = casoTesteParametroExecucao.CriticaParametroId
+    SELECT @Parametros = COALESCE(@Parametros + ', ', '') +  StoredProcedureParametro.NmeParametro + ' = ' +  casoTesteParametroExecucao.ValorParametroExecucao
+    from teste.dbo.CasoTesteParametroExecucao  casoTesteParametroExecucao
+        inner join teste.dbo.StoredProcedureParametro StoredProcedureParametro
+        on StoredProcedureParametro.StoredProcedureParametroid = casoTesteParametroExecucao.StoredProcedureParametroid
     where CasoTesteId = @CasoTesteId
 
 
     -- Recupera critica para execucao
-    select @Sp_Critica = 'aplicacao.dbo.' + critica.NmeStoredProcedure
-    from PlanoSaude.dbo.CasoTeste casoTeste
-        inner join PlanoSaude.dbo.Critica critica
-        on critica.criticaId = casoTeste.criticaId
+    select @Sp_Critica = 'aplicacao.dbo.' + StoredProcedure.NmeStoredProcedure
+    from teste.dbo.CasoTeste casoTeste
+        inner join teste.dbo.StoredProcedure StoredProcedure
+        on StoredProcedure.StoredProcedureId = casoTeste.StoredProcedureId
     where casoTeste.CasoTesteId = @CasoTesteId
 
     set @query =  @Sp_Critica + ' ' + @Parametros + ', @MsgRetorno = @Atual output'

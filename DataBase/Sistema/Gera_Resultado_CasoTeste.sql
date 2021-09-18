@@ -12,7 +12,7 @@ declare @Retorno int = 0
 , @CasoTesteSituacaoId_Passou smallint = 3
 , @CasoTesteSituacaoId_Falou smallint = 4
 select @nmeEsperado = trim(NmeEsperado)
-from PlanoSaude.dbo.CasoTeste
+from teste.dbo.CasoTeste
 where CasoTesteId = @CasoTesteId
 
 
@@ -23,7 +23,7 @@ end else begin
     set @CasoTesteSituacaoId = @CasoTesteSituacaoId_Falou
 end 
 
-    update PlanoSaude.dbo.CasoTeste
+    update teste.dbo.CasoTeste
     set CasoTesteSituacaoId = @CasoTesteSituacaoId
     ,   NmeAtual = @NmeAtual
     where CasoTesteId = @CasoTesteId
