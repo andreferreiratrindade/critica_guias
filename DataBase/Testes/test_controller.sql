@@ -3,45 +3,45 @@ go
 
 
 create or ALTER PROCEDURE test_controller
+    @CasoTesteId int
+
 AS
 BEGIN
+
     declare @Retorno int = 0
-,   @criticaId int = 2
-,   @NmeEsperado varchar(500)
-,   @CasoTesteId int 
-,   @NmeStoredProcedure varchar(500)
-,   @query nvarchar(max) = 'aplicacao.dbo.'
-,   @atual varchar(max) = ''
-,   @NmeCriticaTeste varchar(500) = 'teste_'
-,   @CasoTesteSituacao_Aguardando smallint = 1
-,   @CasoTesteSituacao_Processando smallint = 2
-    
-    drop table if exists #CasoTeste
-    
-    select casoTeste.CasoTesteId
-    , query =  'aplicacao.dbo.teste_' + critica.NmeStoredProcedure
-    into #CasoTeste
-    from PlanoSaude.dbo.CasoTeste casoTeste
-        inner join PlanoSaude.dbo.Critica critica
-        on critica.criticaId = casoTeste.criticaId
-    where casoTeste.CasoTesteSituacaoId = @CasoTesteSituacao_Aguardando
+, @PrestadorId int = NULL
+, @Atual varchar(500) = NULL
+, @Parametros nvarchar(max)
 
-    while(exists(select 1
-    from #CasoTeste))begin
-        select top 1
-            @CasoTesteId    = CasoTesteId
-    , @query = query + ' ' + cast(CasoTesteId as varchar)
-        from #CasoTeste
+begin try
+begin transaction
 
-        delete from  #CasoTeste
-    where @CasoTesteId = CasoTesteId
+         -- Responsavel por montar toda estrutura de dependencias de tabelas com dados falsos pré montados
+         execute aplicacao.dbo.teste_monta_dependencia_mock
+        
+         -- Responsavel por montar toda estrutura de dependencias (tabelas e stored procedures falsos)
+         execute aplicacao.dbo.teste_monta_dependencia
+            @CasoTesteId = @CasoTesteId
+        
+         -- Executa critica
+         execute aplicacao.dbo.teste_critica
+         @CasoTesteId  = @CasoTesteId,
+         @Atual = @Atual output
 
-        update PlanoSaude.dbo.CasoTeste   
-    set CasoTesteSituacaoId = @CasoTesteSituacao_Processando
-    where  @CasoTesteId = CasoTesteId
+end try 
 
-        exec(@query)
-    end
+begin CATCH
+    set @Atual = @Atual + '-- Erro -- ' + ERROR_MESSAGE()
+end catch
+
+    ROLLBACK
+
+    -- 
+    execute aplicacao.dbo.Gera_Resultado_CasoTeste 
+    @CasoTesteId = @CasoTesteId,
+    @NmeAtual = @Atual
+
+    return @Retorno
 END
-GO
+go
 
