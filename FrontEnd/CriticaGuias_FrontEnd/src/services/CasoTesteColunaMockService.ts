@@ -8,10 +8,10 @@ export class CasoTesteColunaMockService {
     
 
 
-    public async listar(casoTesteId : number, criticaTabelaDependenciaId: number) {
+    public async listar(casoTesteId : number, storedProcedureDependenciaId: number) {
         let parameters: IHttpClientRequestParameters
             = {
-            url: Config.api + `/casoTesteColunaMock/${casoTesteId}/${criticaTabelaDependenciaId}`,
+            url: Config.api + `/casoTesteColunaMock/${casoTesteId}/${storedProcedureDependenciaId}`,
             requiresToken: true
         }
         try {

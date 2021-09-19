@@ -1,6 +1,6 @@
 import * as Jwt from 'jsonwebtoken'
 import { check, validationResult } from 'express-validator';
-import { CriticaParametro } from '../models/criticaParametroModel';
+import { StoredProcedureParametro } from '../models/storedProcedureParametroModel';
 import { Repository } from 'sequelize-typescript';
 import { RetornoRequest } from '../utils/retornoRequest';
 import HttpStatusCode from '../constants/HttpStatusCode';
@@ -8,12 +8,12 @@ import { Config } from '../config/Config';
 import { RepositoryQuery } from '../repositories/repositoryQuery';
 
 
-export class CriticaParametroService {
+export class StoredProcedureParametroService {
 
-  private readonly _criticaParametroRepository !: Repository<CriticaParametro>
+  private readonly _storedProcedureParametroRepository !: Repository<StoredProcedureParametro>
 
-  constructor(criticaParametroRepository: Repository<CriticaParametro>) {
-    this._criticaParametroRepository = criticaParametroRepository;
+  constructor(storedProcedureParametroRepository: Repository<StoredProcedureParametro>) {
+    this._storedProcedureParametroRepository = storedProcedureParametroRepository;
   }
 
   public async adicionarValidation(req: any) {
@@ -22,12 +22,12 @@ export class CriticaParametroService {
       .withMessage("Campo de preenchimento obrigatório")
       .run(req);
 
-    await check("seqCriticaParametro")
+    await check("seqStoredProcedureParametro")
       .notEmpty()
       .withMessage("Campo de preenchimento obrigatório")
       .run(req);
 
-      await check("criticaId")
+      await check("storedProcedureId")
       .notEmpty()
       .withMessage("Campo de preenchimento obrigatório")
       .run(req);
@@ -46,14 +46,14 @@ export class CriticaParametroService {
       if (!result.isEmpty()) {
         return RetornoRequest.Response(result.array(), null, res, HttpStatusCode.BAD_REQUEST);
       }
-      let criticaParametro = {
+      let storedProcedureParametro = {
         idParametro: req.body.idParametro,
-        seqCriticaParametro: req.body.seqCriticaParametro,
-        criticaId: req.body.criticaId,
+        seqStoredProcedureParametro: req.body.seqStoredProcedureParametro,
+        storedProcedureId: req.body.storedProcedureId,
       };
       console.log("Salvando");
 
-      let resultCreate = await this._criticaParametroRepository.create(criticaParametro, { isNewRecord: true })
+      let resultCreate = await this._storedProcedureParametroRepository.create(storedProcedureParametro, { isNewRecord: true })
 
       return RetornoRequest.Response(resultCreate, null, res, HttpStatusCode.OK);
     } catch (error: any) {
@@ -62,7 +62,7 @@ export class CriticaParametroService {
   }
 
   private async listagemValidacao(req: any){
-    await check("criticaId")
+    await check("storedProcedureId")
     .notEmpty()
     .withMessage("Campo de preenchimento obrigatório")
     .isNumeric()
@@ -80,7 +80,7 @@ export class CriticaParametroService {
       }
 
   
-      const parametros  =  await RepositoryQuery.RecuperaListagemParametroCritica(req.params.criticaId); 
+      const parametros  =  await RepositoryQuery.RecuperaListagemParametroStoredProcedure(req.params.storedProcedureId); 
 
       return RetornoRequest.Response(parametros, null, res, HttpStatusCode.OK);
     } catch (error: any) {
@@ -88,12 +88,12 @@ export class CriticaParametroService {
     }
   }
   public async atualizarValidacao(req: any){
-    await check("criticaIdParametro")
+    await check("storedProcedureIdParametro")
     .notEmpty()
     .withMessage("Campo é de preenchimento obrigatório")
     .run(req);
 
-    await check("seqCriticaParametro")
+    await check("seqStoredProcedureParametro")
     .notEmpty()
     .withMessage("Campo é de preenchimento obrigatório")
     .run(req);
@@ -108,14 +108,14 @@ export class CriticaParametroService {
     if (!result.isEmpty()) {
       return res.status(400).json({ errors: result.array() });
     }
-    let criticaParametro = {seqCriticaParametro : req.body.seqCriticaParametro };
-    let resultUpdate= await this._criticaParametroRepository.update(criticaParametro, {where:{criticaIdParametro:req.body.criticaIdParametro}});
+    let storedProcedureParametro = {seqStoredProcedureParametro : req.body.seqStoredProcedureParametro };
+    let resultUpdate= await this._storedProcedureParametroRepository.update(storedProcedureParametro, {where:{storedProcedureIdParametro:req.body.storedProcedureIdParametro}});
 
     return RetornoRequest.Response(resultUpdate,null,res,HttpStatusCode.OK);
   }
 
   public async deletarValidacao(req: any){
-    await check("criticaIdParametro")
+    await check("storedProcedureIdParametro")
     .notEmpty()
     .withMessage("Campo é de preenchimento obrigatório")
     .isNumeric()
@@ -132,7 +132,7 @@ export class CriticaParametroService {
       return res.status(400).json({ errors: result.array() });
     }
 
-    const resultDelete = await this._criticaParametroRepository.destroy({where:{criticaIdParametro: req.params.criticaIdParametro}});
+    const resultDelete = await this._storedProcedureParametroRepository.destroy({where:{storedProcedureIdParametro: req.params.storedProcedureIdParametro}});
 
     return RetornoRequest.Response(resultDelete,null,res,HttpStatusCode.OK);
   }

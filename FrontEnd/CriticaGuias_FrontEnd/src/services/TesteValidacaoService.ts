@@ -27,10 +27,10 @@ export class TesteValidacaoService {
 
     
 
-    public async executarTestePorCritica(conteudo: _modelsInput.Critica) {
+    public async executarTestePorStoredProcedure(conteudo: _modelsInput.StoredProcedure) {
         let parameters: IHttpClientRequestParameters
             = {
-            url: Config.api + "/testeValidacao/executarTestePorCritica",
+            url: Config.api + "/testeValidacao/executarTestePorStoredProcedure",
             requiresToken: true,
             payload: conteudo
         }

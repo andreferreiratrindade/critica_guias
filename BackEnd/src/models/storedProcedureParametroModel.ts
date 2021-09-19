@@ -2,20 +2,20 @@
 import {Model, Table, Column,  DataType } from 'sequelize-typescript';
 
 
-@Table({ tableName: 'CriticaParametro',timestamps: false})
-export class CriticaParametro extends Model {
+@Table({ tableName: 'StoredProcedureParametro',timestamps: false})
+export class StoredProcedureParametro extends Model {
 
     @Column({type:DataType.INTEGER, 
             primaryKey:true,
             autoIncrement : true})
     
-    criticaParametroId !: number;
+    storedProcedureParametroId !: number;
 
     @Column(DataType.INTEGER)
     parametroTipoId !: number;
 
     @Column(DataType.INTEGER)
-    criticaId!:number;
+    storedProcedureId!:number;
 
     @Column(DataType.STRING)
     nmeParametro!:number;

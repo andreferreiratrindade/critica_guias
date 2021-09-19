@@ -1,6 +1,6 @@
 import * as Jwt from 'jsonwebtoken'
 import { check, validationResult } from 'express-validator';
-import { Critica } from '../models/criticaModel';
+import { StoredProcedure } from '../models/storedProcedureModel';
 import { Repository } from 'sequelize-typescript';
 import { RetornoRequest } from '../utils/retornoRequest';
 import HttpStatusCode from '../constants/HttpStatusCode';

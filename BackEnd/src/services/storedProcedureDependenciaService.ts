@@ -8,14 +8,14 @@ import { Config } from '../config/Config';
 import { RepositoryQuery } from '../repositories/repositoryQuery';
 
 
-export class CriticaTabelaDependenciaService {
+export class StoredProcedureDependenciaService {
 
 
 
   public async listar(req: any, res: any) {
     try {
 
-      const parametros  =  await RepositoryQuery.RecuperaListagemCriticaTabelaDependencia(req.params.criticaId); 
+      const parametros  =  await RepositoryQuery.RecuperaListagemStoredProcedureDependencia(req.params.storedProcedureId); 
 
       return RetornoRequest.Response(parametros, null, res, HttpStatusCode.OK);
     } catch (error: any) {

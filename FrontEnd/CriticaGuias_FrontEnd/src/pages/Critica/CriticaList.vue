@@ -3,27 +3,27 @@
     <q-item class="bg-grey-3">
 
       <q-item-section class="text-subtitle1 text-black"
-        >Criticas</q-item-section
+        >StoredProcedures</q-item-section
       >
     </q-item>
     <div class="q-pa-md">
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
       <q-btn fab icon="add" color="positive" @click="Novo">
         <q-tooltip anchor="center left" self="center right" :offset="[10, 10]">
-          <strong>Criticas</strong>
+          <strong>StoredProcedures</strong>
         </q-tooltip>
       </q-btn>
     </q-page-sticky>
 
     <q-table title="" :data="criticas" :columns="columns" row-key="name">
-      <template v-slot:body-cell-nroCritica="props">
+      <template v-slot:body-cell-nroStoredProcedure="props">
         <q-td :props="props">
           <div>
             <q-badge color="purple" :label="props.value" />
           </div>
         </q-td>
       </template>
-      <template v-slot:body-cell-criticaId="props">
+      <template v-slot:body-cell-storedProcedureId="props">
         <q-td :props="props">
          <q-btn round color="primary" icon="timeline" @click="visualizarCasoTeste(props.value)"/>
         </q-td>
@@ -35,30 +35,30 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { CriticaService } from "../../services/CriticaService";
+import { StoredProcedureService } from "../../services/StoredProcedureService";
 import { _modelsInput } from "./../../models/_modelsInput";
 
 @Component
-export default class CriticaList extends Vue {
-  private _criticaService!: CriticaService;
-  private criticaId: number = 0;
+export default class StoredProcedureList extends Vue {
+  private _criticaService!: StoredProcedureService;
+  private storedProcedureId: number = 0;
   public criticas: any[] = [];
 
   public columns: any[] = [
     {
-      name: "nroCritica",
+      name: "nroStoredProcedure",
       align: "center",
-      label: "N° Critica",
-      field: "nroCritica",
+      label: "N° StoredProcedure",
+      field: "nroStoredProcedure",
     },
-    { name: "nmeCritica", align: "center", label: "Nome", field: "nmeCritica" },
+    { name: "nmeStoredProcedure", align: "center", label: "Nome", field: "nmeStoredProcedure" },
     {
       name: "nmeStoredProcedure",
       align: "center",
       label: "Stored Procedure",
       field: "nmeStoredProcedure",
     },
-    { name: "criticaId", align: "center", label: "", field: "criticaId" },
+    { name: "storedProcedureId", align: "center", label: "", field: "storedProcedureId" },
   ];
 
   public recuperaListagem() {
@@ -76,19 +76,19 @@ export default class CriticaList extends Vue {
   }
 
   created() {
-    this._criticaService = new CriticaService();
+    this._criticaService = new StoredProcedureService();
     this.recuperaListagem();
   }
 
   public Novo() {
     this.$router.push({
-      path: `ManterCritica`,
+      path: `ManterStoredProcedure`,
     });
   }
 
-  public visualizarCasoTeste(criticaId : number){
+  public visualizarCasoTeste(storedProcedureId : number){
        this.$router.push({
-      path: `casoTeste/CasoTesteList/${criticaId}`,
+      path: `casoTeste/CasoTesteList/${storedProcedureId}`,
     });
   }
 }

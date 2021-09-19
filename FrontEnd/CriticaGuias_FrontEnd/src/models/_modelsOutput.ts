@@ -7,8 +7,8 @@ export namespace _modelsOutput{
         desCorParametro : string |null
     }
 
-    export interface CriticaParametro{
-        criticaIdParametro: number| null,
+    export interface StoredProcedureParametro{
+        storedProcedureIdParametro: number| null,
         idParametro: number | null, 
         nmeParametro: string | null,
         desCorParametro : string |null

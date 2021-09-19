@@ -66,7 +66,7 @@
                   <q-card-section>
                     <caso-teste-dependencia
                       ref="casoTesteDependencia"
-                      :criticaId="casoTeste.criticaId"
+                      :storedProcedureId="casoTeste.storedProcedureId"
                       :casoTesteId="casoTeste.casoTesteId"
                     />
                   </q-card-section>
@@ -101,7 +101,7 @@
             >
               <caso-teste-parametro-execucao
                 ref="casoTesteParametroExecucao"
-                :criticaId="casoTeste.criticaId"
+                :storedProcedureId="casoTeste.storedProcedureId"
                 :casoTesteId="casoTeste.casoTesteId"
               />
               <div class="row justify-end">
@@ -177,7 +177,7 @@ export default class ManterCasoTeste extends Vue {
 
   step: number = 1;
   public casoTeste: _modelsInput.CasoTeste = {
-    criticaId: null,
+    storedProcedureId: null,
     casoTesteSituacaoId: null,
     nmeEsperado: null,
     nmeCasoTeste: null,
@@ -187,7 +187,7 @@ export default class ManterCasoTeste extends Vue {
   async created() {
     this._casoTesteService = new CasoTesteService();
     this._testeValidacaoService = new TesteValidacaoService();
-    this.casoTeste.criticaId = this.$route.params.criticaId;
+    this.casoTeste.storedProcedureId = this.$route.params.storedProcedureId;
     if (this.$route.params.casoTesteId) {
       this.casoTeste = await this._casoTesteService.recuperaPorId(
         this.$route.params.casoTesteId
@@ -276,7 +276,7 @@ export default class ManterCasoTeste extends Vue {
   public voltarPaginaCasoTeste() {
     this.$router.push({
       name: `casoTesteList`,
-      params: { criticaId: this.casoTeste.criticaId },
+      params: { storedProcedureId: this.casoTeste.storedProcedureId },
     });
   }
 }

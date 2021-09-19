@@ -4,10 +4,10 @@ import { IHttpClientRequestParameters } from "./interfaces/IHttpClientRequestPar
 import * as Config from '../config/config.json'
 import NotifyHelper from "src/helpers/NotifyHelpter";
 import { _helperModel } from "../helpers/_helperModel"
-export class CriticaService {
+export class StoredProcedureService {
 
 
-    public async adicionar(conteudo: _modelsInput.Critica) {
+    public async adicionar(conteudo: _modelsInput.StoredProcedure) {
         let parameters: IHttpClientRequestParameters
             = {
             url: Config.api + "/critica",

@@ -1,6 +1,6 @@
 import * as Jwt from 'jsonwebtoken'
 import { check, validationResult } from 'express-validator';
-import { Critica } from '../models/criticaModel';
+import { StoredProcedure } from '../models/storedProcedureModel';
 import { Repository } from 'sequelize-typescript';
 import { RetornoRequest } from '../utils/retornoRequest';
 import HttpStatusCode from '../constants/HttpStatusCode';
@@ -8,26 +8,26 @@ import { Config } from '../config/Config';
 import { RepositoryQuery } from '../repositories/repositoryQuery';
 
 
-export class CriticaService {
+export class StoredProcedureService {
 
-  private readonly _criticaRepository !: Repository<Critica>
+  private readonly storedProcedureRepository !: Repository<StoredProcedure>
 
-  constructor(criticaRepository: Repository<Critica>) {
-    this._criticaRepository = criticaRepository;
+  constructor(storedProcedureRepository: Repository<StoredProcedure>) {
+    this.storedProcedureRepository = storedProcedureRepository;
   }
 
   public async adicionarValidation(req: any) {
-    await check("nmeCritica")
+    await check("nmeStoredProcedure")
       .notEmpty()
       .withMessage("Campo de preenchimento obrigatório")
       .run(req);
 
-    await check("desCritica")
+    await check("desStoredProcedure")
       .notEmpty()
       .withMessage("Campo de preenchimento obrigatório")
       .run(req);
 
-    await check("nroCritica")
+    await check("nroStoredProcedure")
       .notEmpty()
       .withMessage("Campo Nome é de preenchimento obrigatório")
       .isNumeric()
@@ -48,17 +48,14 @@ export class CriticaService {
       if (!result.isEmpty()) {
         return RetornoRequest.Response(result.array(), null, res, HttpStatusCode.BAD_REQUEST);
       }
-      let critica = {
-        nmeCritica: req.body.nmeCritica,
-        desCritica: req.body.desCritica,
-        nroCritica: req.body.nroCritica,
-        nmeStoredProcedure : req.body.nmeStoredProcedure
+      let storedProcedure = {
+        nmeStoredProcedure: req.body.nmeStoredProcedure,
       };
       console.log("Salvando");
 
-      let resultCreate = await this._criticaRepository.create(critica, { isNewRecord: true })
+      let resultCreate = await this.storedProcedureRepository.create(storedProcedure, { isNewRecord: true })
 
-      await RepositoryQuery.ExecutaMonta_parametro_critica(resultCreate.criticaId); 
+      await RepositoryQuery.ExecutaMonta_parametro_critica(resultCreate.storedProcedureId); 
 
       return RetornoRequest.Response(resultCreate, null, res, HttpStatusCode.OK);
     } catch (error: any) {
@@ -69,7 +66,7 @@ export class CriticaService {
   public async listar(req: any, res: any) {
     try {
   
-      const parametros  =  await RepositoryQuery.RecuperaListagemCritica(); 
+      const parametros  =  await RepositoryQuery.RecuperaListagemStoredProcedure(); 
 
       return RetornoRequest.Response(parametros, null, res, HttpStatusCode.OK);
     } catch (error: any) {

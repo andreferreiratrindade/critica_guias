@@ -16,7 +16,7 @@ export class CasoTesteColunaMockRoute {
         let router = express.Router();
         
 
-        router.get("/:casoTesteId/:criticaTabelaDependenciaId",(request: any,response:any)=>{
+        router.get("/:casoTesteId/:storedProcedureDependenciaId",(request: any,response:any)=>{
             console.log("CasoTesteColunaMockRoute - listagem");
             let casoTesteColunaMock = new CasoTesteColunaMockService(this._casoTesteColunaMockRepository);
             return casoTesteColunaMock.listar(request,response);

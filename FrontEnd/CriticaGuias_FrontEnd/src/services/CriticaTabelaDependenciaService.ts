@@ -4,14 +4,14 @@ import { IHttpClientRequestParameters } from "./interfaces/IHttpClientRequestPar
 import * as Config from '../config/config.json'
 import NotifyHelper from "src/helpers/NotifyHelpter";
 import { _helperModel } from "../helpers/_helperModel"
-export class CriticaTabelaDependenciaService {
+export class StoredProcedureDependenciaService {
     
 
 
-    public async listar(criticaId : number) {
+    public async listar(storedProcedureId : number) {
         let parameters: IHttpClientRequestParameters
             = {
-            url: Config.api + `/criticaTabelaDependencia/${criticaId}`,
+            url: Config.api + `/storedProcedureDependencia/${storedProcedureId}`,
             requiresToken: true
         }
         try {

@@ -20,7 +20,7 @@ export class CasoTesteColunaMockService {
   public async listar(req: any, res: any) {
     try {
 
-      const parametros = await RepositoryQuery.RecuperaListagemCasoTesteColunaMock(req.params.criticaTabelaDependenciaId, req.params.casoTesteId);
+      const parametros = await RepositoryQuery.RecuperaListagemCasoTesteColunaMock(req.params.storedProcedureDependenciaId, req.params.casoTesteId);
 
       return RetornoRequest.Response(parametros, null, res, HttpStatusCode.OK);
     } catch (error: any) {
@@ -41,7 +41,7 @@ export class CasoTesteColunaMockService {
       let casoTesteColunaMock = {
         casoTesteColunaMockId: req.body.casoTesteColunaMockId,
         casoTesteId: req.body.casoTesteId,
-        criticaTabelaDependenciaColunaId: req.body.criticaTabelaDependenciaColunaId,
+        storedProcedureDependenciaColunaId: req.body.storedProcedureDependenciaColunaId,
         valorColunaMock: req.body.valorColunaMock
       };
 

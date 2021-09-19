@@ -9,15 +9,15 @@
         @click="voltar()"
       />
       <q-item-section class="text-subtitle1 text-black"
-        >Manter Critica</q-item-section
+        >Manter StoredProcedure</q-item-section
       >
     </q-item>
     <div class="q-pa-md">
       <q-input
-        v-model="critica.nroCritica"
+        v-model="critica.nroStoredProcedure"
         class="col-2"
         type="text"
-        label="N° Critica"
+        label="N° StoredProcedure"
         filled
         require
         lazy-rules
@@ -29,7 +29,7 @@
       />
 
       <q-input
-        v-model="critica.nmeCritica"
+        v-model="critica.nmeStoredProcedure"
         type="text"
         label="Nome Crítica"
         filled
@@ -42,7 +42,7 @@
       />
 
       <q-input
-        v-model="critica.desCritica"
+        v-model="critica.desStoredProcedure"
         type="text"
         label="Descrição"
         filled
@@ -74,17 +74,17 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { _modelsInput } from "../../models/_modelsInput";
-import { CriticaService } from "../../services/CriticaService";
+import { StoredProcedureService } from "../../services/StoredProcedureService";
 
 @Component
-export default class Critica extends Vue {
-  private _criticaService!: CriticaService;
-  public critica: _modelsInput.Critica = {
-    nmeCritica: null,
-    desCritica: null,
-    nroCritica: null,
+export default class StoredProcedure extends Vue {
+  private _criticaService!: StoredProcedureService;
+  public critica: _modelsInput.StoredProcedure = {
     nmeStoredProcedure: null,
-    criticaId: null,
+    desStoredProcedure: null,
+    nroStoredProcedure: null,
+    nmeStoredProcedure: null,
+    storedProcedureId: null,
   };
 
   public salvar() {
@@ -106,7 +106,7 @@ export default class Critica extends Vue {
   }
 
   created() {
-    this._criticaService = new CriticaService();
+    this._criticaService = new StoredProcedureService();
   }
 
   public voltar() {

@@ -3,8 +3,8 @@
 
            <q-input
       v-model="coluna.valorColunaMock"
-      v-for="coluna in criticaTabelaDependenciaColunaList"
-      v-bind:key="coluna.criticaTabelaDependenciaColunaId"
+      v-for="coluna in storedProcedureDependenciaColunaList"
+      v-bind:key="coluna.storedProcedureDependenciaColunaId"
       type="text"
       :label="coluna.nmeColuna"
       filled
@@ -25,17 +25,17 @@ export default class CasoTesteDependenciaColuna extends Vue {
   casoTesteId: number;
 
   @Prop()
-  criticaTabelaDependenciaId: number;
+  storedProcedureDependenciaId: number;
   private _casoTesteColunaMockService!: CasoTesteColunaMockService;
 
-  public criticaTabelaDependenciaColunaList: _modelsInput.CasoTesteDependenciaColuna[] =
+  public storedProcedureDependenciaColunaList: _modelsInput.CasoTesteDependenciaColuna[] =
     [];
 
   public recuperaListagem() {
     this._casoTesteColunaMockService
-      .listar(this.casoTesteId, this.criticaTabelaDependenciaId)
+      .listar(this.casoTesteId, this.storedProcedureDependenciaId)
       .then((result: any) => {
-        this.criticaTabelaDependenciaColunaList = result;
+        this.storedProcedureDependenciaColunaList = result;
       })
       .catch((err: any) => {
         this.$q.notify(err);
@@ -52,7 +52,7 @@ export default class CasoTesteDependenciaColuna extends Vue {
 
   public async  salvaValorColunaDependencia(){
 
-    this.criticaTabelaDependenciaColunaList.forEach(x=>{
+    this.storedProcedureDependenciaColunaList.forEach(x=>{
 
         this._casoTesteColunaMockService.adicionar(x)
       .catch((err: any) => {
