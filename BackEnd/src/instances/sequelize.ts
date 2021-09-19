@@ -6,6 +6,8 @@ import tedious from 'tedious';
 import { CasoTeste } from '../models/casoTesteModel';
 import { CasoTesteParametroExecucao } from '../models/casoTesteParametroExecucaoModel';
 import { CasoTesteColunaMock } from '../models/CasoTesteColunaMockModel';
+import { StoredProcedureCobertura } from '../models/storedProcedureCoberturaModel';
+import { StoredProcedureDependencia } from '../models/storedProcedureDependenciaModel';
 const dataBaseInfo = Config.databaseInfo();
 
 console.log(dataBaseInfo);
@@ -13,7 +15,7 @@ export const sequelize = new Sequelize(dataBaseInfo.db, dataBaseInfo.username, d
   dialect: "mssql",
   port: dataBaseInfo.port,
   host:dataBaseInfo.host,
-  models: [StoredProcedure, StoredProcedureParametro, CasoTeste, CasoTesteParametroExecucao, CasoTesteColunaMock],
+  models: [StoredProcedure, StoredProcedureParametro, CasoTeste, CasoTesteParametroExecucao, CasoTesteColunaMock, StoredProcedureCobertura, StoredProcedureDependencia],
   repositoryMode: true,
   dialectModule : tedious,
   logging:  dataBaseInfo.logging 

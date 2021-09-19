@@ -25,7 +25,9 @@ export class Config {
             "key": {
                 "privateKey": envs?.CONFIG_KEY_PRIVATEKEY,
                 "tokenExpiry": envs?.CONFIG_TOKENEXPIRY
-            }
+            }, 
+
+            "apiCobertura": envs?.CONFIG_API_COBERTURA
         };
     }
 

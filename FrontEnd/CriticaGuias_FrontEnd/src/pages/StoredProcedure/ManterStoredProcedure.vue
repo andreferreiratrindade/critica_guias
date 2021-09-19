@@ -14,22 +14,7 @@
     </q-item>
     <div class="q-pa-md">
       <q-input
-        v-model="critica.nroStoredProcedure"
-        class="col-2"
-        type="text"
-        label="N° StoredProcedure"
-        filled
-        require
-        lazy-rules
-        focus
-        :rules="[
-          (val) =>
-            (val && val.length > 0) || 'Campo de preenchimento obrigatório',
-        ]"
-      />
-
-      <q-input
-        v-model="critica.nmeStoredProcedure"
+        v-model="storedProcedureParametro.nmeStoredProcedure"
         type="text"
         label="Nome Crítica"
         filled
@@ -41,31 +26,6 @@
         ]"
       />
 
-      <q-input
-        v-model="critica.desStoredProcedure"
-        type="text"
-        label="Descrição"
-        filled
-        require
-        lazy-rules
-        :rules="[
-          (val) =>
-            (val && val.length > 0) || 'Campo de preenchimento obrigatório',
-        ]"
-      />
-
-      <q-input
-        v-model="critica.nmeStoredProcedure"
-        type="text"
-        label="Stored Procedure"
-        filled
-        require
-        lazy-rules
-        :rules="[
-          (val) =>
-            (val && val.length > 0) || 'Campo de preenchimento obrigatório',
-        ]"
-      />
       <q-btn color="primary" label="Adicionar" @click="salvar" />
     </div>
   </div>
@@ -78,21 +38,18 @@ import { StoredProcedureService } from "../../services/StoredProcedureService";
 
 @Component
 export default class StoredProcedure extends Vue {
-  private _criticaService!: StoredProcedureService;
-  public critica: _modelsInput.StoredProcedure = {
+  private _storedProcedureParametroService!: StoredProcedureService;
+  public storedProcedureParametro: _modelsInput.StoredProcedure = {
     nmeStoredProcedure: null,
-    desStoredProcedure: null,
-    nroStoredProcedure: null,
-    nmeStoredProcedure: null,
-    storedProcedureId: null,
+    storedProcedureId : null
   };
 
   public salvar() {
-    this._criticaService
-      .adicionar(this.critica)
+    this._storedProcedureParametroService
+      .adicionar(this.storedProcedureParametro)
       .then((result: any) => {
         this.$router.push({
-          name: `criticaList`,
+          name: `storedProcedureParametroList`,
         });
 
         this.$q.notify(result);
@@ -106,12 +63,12 @@ export default class StoredProcedure extends Vue {
   }
 
   created() {
-    this._criticaService = new StoredProcedureService();
+    this._storedProcedureParametroService = new StoredProcedureService();
   }
 
   public voltar() {
     this.$router.push({
-      name: `criticaList`
+      name: `storedProcedureParametroList`
     });
   }
 }

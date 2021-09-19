@@ -20,6 +20,8 @@ import { CasoTesteColunaMockRoute } from './routes/casoTesteColunaMockRoute';
 import { StoredProcedureDependenciaRoute } from './routes/storedProcedureDependenciaRoute';
 import { CasoTesteColunaMock } from './models/CasoTesteColunaMockModel';
 import { TesteValidacaoRoute } from './routes/testeValidacao';
+import { StoredProcedureCobertura } from './models/storedProcedureCoberturaModel';
+import { StoredProcedureCoberturaRoute } from './routes/storedProcedureCoberturaRoute';
 const app = express();
 const apiRoutes = express.Router()
 
@@ -37,23 +39,26 @@ app.use(logger('dev'));
 
 
 let storedProcedureRepository = sequelize.getRepository(StoredProcedure);
+let storedProcedureCoberturaRepository = sequelize.getRepository(StoredProcedureCobertura);
 let storedProcedureParametroRepository = sequelize.getRepository(StoredProcedureParametro);
 let casoTesteRepository = sequelize.getRepository(CasoTeste);
 let casoTesteParametroExecucaoRepository = sequelize.getRepository(CasoTesteParametroExecucao);
 let casoTesteColunaMockRepository = sequelize.getRepository(CasoTesteColunaMock);
 
+
 let casoTesteRoute = new CasoTesteRoute(casoTesteRepository);
-let criticaRoute = new StoredProcedureRoute(storedProcedureRepository);
+let storedProcedureRoute = new StoredProcedureRoute(storedProcedureRepository);
 let storedProcedureParametroRoute = new StoredProcedureParametroRoute(storedProcedureParametroRepository);
 let parametroRoute = new ParametroRoute();
 let buildMockRoute = new  BuildMockRoute();
 let casoTesteParametroExecucaoRoute = new CasoTesteParametroExecucaoRoute(casoTesteParametroExecucaoRepository);
 let casoTesteColunaMockRoute = new CasoTesteColunaMockRoute(casoTesteColunaMockRepository);
 let storedProcedureDependenciaRoute = new StoredProcedureDependenciaRoute();
-let testeValidacaoRoute = new TesteValidacaoRoute();
+let testeValidacaoRoute = new TesteValidacaoRoute(storedProcedureCoberturaRepository);
+let storedProcedureCoberturaRoute = new StoredProcedureCoberturaRoute(storedProcedureCoberturaRepository);
 // public
 app.use('/storedProcedureParametro', storedProcedureParametroRoute.montaRotas());
-app.use('/critica', criticaRoute.montaRotas());
+app.use('/storedProcedure', storedProcedureRoute.montaRotas());
 app.use('/casoTeste', casoTesteRoute.montaRotas());
 app.use('/parametro', parametroRoute.montaRotas());
 app.use('/buildMock', buildMockRoute.montaRotas());
@@ -61,6 +66,9 @@ app.use('/casoTesteParametroExecucao', casoTesteParametroExecucaoRoute.montaRota
 app.use('/storedProcedureDependencia', storedProcedureDependenciaRoute.montaRotas());
 app.use('/casoTesteColunaMock', casoTesteColunaMockRoute.montaRotas());
 app.use('/testeValidacao', testeValidacaoRoute.montaRotas());
+app.use('/storedProcedureCobertura', storedProcedureCoberturaRoute.montaRotas());
+
+storedProcedureCoberturaRoute
 app.use('/api', apiRoutes);
 
 var port = Config.serverInfo().port;

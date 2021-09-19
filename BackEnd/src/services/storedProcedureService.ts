@@ -55,7 +55,7 @@ export class StoredProcedureService {
 
       let resultCreate = await this.storedProcedureRepository.create(storedProcedure, { isNewRecord: true })
 
-      await RepositoryQuery.ExecutaMonta_parametro_critica(resultCreate.storedProcedureId); 
+      await RepositoryQuery.ExecutaMontaStoredProcedureDependencias(resultCreate.storedProcedureId); 
 
       return RetornoRequest.Response(resultCreate, null, res, HttpStatusCode.OK);
     } catch (error: any) {

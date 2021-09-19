@@ -89,6 +89,7 @@ drop table if exists CasoTesteMock
 drop table if exists CasoTesteColunaMock
 drop table if exists CasoTeste
 drop table if exists CasoTesteParametroExecucao
+drop table if exists StoredProcedureCobertura
 drop table if exists StoredProcedureDependenciaParametro
 drop table if exists StoredProcedureDependencia
 drop table if exists StoredProcedureParametro
@@ -166,7 +167,17 @@ create table StoredProcedureDependenciaParametro
 )
 
 
+create table StoredProcedureCobertura(
 
+    StoredProcedureCoberturaId int identity(1,1) primary key,
+    StoredProcedureId int not null,
+    TotalCoberto bigint not null,
+    TotalEtapa bigint not null,
+    CoberturaHtml varchar(max) not null,
+
+    CONSTRAINT FK_StoredProcedureCobertura_StoredProcedure FOREIGN KEY (StoredProcedureId)
+    REFERENCES StoredProcedure(StoredProcedureId)
+)
 
 create table CasoTeste
 (

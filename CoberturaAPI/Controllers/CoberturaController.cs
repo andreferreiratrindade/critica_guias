@@ -13,7 +13,7 @@ namespace CoberturaAPI.Controllers
     {
 
         [HttpGet]
-        public CoberturaModel Get(int storedProcedureId  )
+        public IActionResult  Get(int storedProcedureId  )
         {
            
           var connectionString = "Data Source=localhost,1433;Initial Catalog=aplicacao;User ID=sa;Password=myPass123;";
@@ -29,11 +29,11 @@ namespace CoberturaAPI.Controllers
 
     TotalCoberto = cover.CoveredStatementCount,
 
-    TotalEtapas = cover.StatementCount,
+    TotalEtapas = cover.StatementCount
 
           };
 
-            return cobertura;
+            return Ok(cobertura);
         }
     }
 }

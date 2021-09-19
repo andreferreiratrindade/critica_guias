@@ -1,4 +1,4 @@
-# Quasar App (criticaguias_frontend)
+# Quasar App (storedProcedureParametroguias_frontend)
 
 A Quasar Framework app
 

@@ -1,9 +1,7 @@
-import {  StoredProcedureService } from '../services/storedProcedureService'
 import express, { Router } from 'express'
-import { StoredProcedure } from '../models/storedProcedureModel';
 import { Repository } from 'sequelize-typescript';
+import { StoredProcedureCobertura } from '../models/storedProcedureCoberturaModel';
 import { StoredProcedureDependenciaService } from '../services/storedProcedureDependenciaService';
-import { StoredProcedureDependencia } from '../models/storedProcedureDependenciaModel';
 
 export class StoredProcedureDependenciaRoute {
 
