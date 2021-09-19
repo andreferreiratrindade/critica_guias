@@ -27,7 +27,7 @@ import { BuildMockService } from "../../../services/BuildMockService";
 @Component
 export default class BeneficiarioBuildMock extends Vue {
   private _buildMockService!: BuildMockService;
-  private criticaId: number = 0;
+  private storedProcedureId: number = 0;
   private casoTesteId: number = 0;
   private beneficiarios: _modelsInput.BeneficiarioBuildMock[] = [];
 

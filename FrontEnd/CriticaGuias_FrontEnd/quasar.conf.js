@@ -113,8 +113,8 @@ module.exports = configure(function (/* ctx */) {
       workboxPluginMode: 'GenerateSW', // 'GenerateSW' or 'InjectManifest'
       workboxOptions: {}, // only for GenerateSW
       manifest: {
-        name: `Critica de guias`,
-        short_name: `Critica de guias`,
+        name: `StoredProcedure de guias`,
+        short_name: `StoredProcedure de guias`,
         description: `A Quasar Framework app`,
         display: 'standalone',
         orientation: 'portrait',

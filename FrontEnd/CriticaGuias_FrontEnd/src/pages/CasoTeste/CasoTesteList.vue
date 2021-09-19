@@ -10,7 +10,7 @@
     
 
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
-      <q-btn fab icon="playlist_play" color="blue" @click="executarTestesPorCritica">
+      <q-btn fab icon="playlist_play" color="blue" @click="executarTestesPorStoredProcedure">
         <q-tooltip anchor="center left" self="center right" :offset="[10, 10]">
           <strong>Testar todos os casos</strong>
         </q-tooltip>
@@ -23,7 +23,7 @@
     </q-page-sticky>
 
     <q-table title="" :data="casoTestes" :columns="columns" row-key="name">
-      <template v-slot:body-cell-nroCritica="props">
+      <template v-slot:body-cell-nroStoredProcedure="props">
         <q-td :props="props">
           <div>
             <q-badge color="purple" :label="props.value" />
@@ -54,7 +54,7 @@ import { CasoTesteService } from "./../../services/CasoTesteService";
 export default class CasoTesteList extends Vue {
   private _casoTesteService!: CasoTesteService;
   private _testeValidacaoService !: TesteValidacaoService;
-  private criticaId: number = 0;
+  private storedProcedureId: number = 0;
   public casoTestes: any[] = [];
   public columns: any[] = [
     {
@@ -88,7 +88,7 @@ export default class CasoTesteList extends Vue {
 
   public recuperaListagem() {
     this._casoTesteService
-      .listar(this.criticaId)
+      .listar(this.storedProcedureId)
       .then((result: any) => {
         this.casoTestes = result;
       })
@@ -103,27 +103,27 @@ export default class CasoTesteList extends Vue {
   created() {
     this._casoTesteService = new CasoTesteService();
     this._testeValidacaoService = new TesteValidacaoService();
-    this.criticaId = this.$route.params.criticaId;
+    this.storedProcedureId = this.$route.params.storedProcedureId;
     this.recuperaListagem();
   }
 
   public editarCasoTeste(casoTesteId: number) {
     this.$router.push({
       name: `atualizarCasoTeste`,
-      params: { casoTesteId: casoTesteId, criticaId: this.criticaId },
+      params: { casoTesteId: casoTesteId, storedProcedureId: this.storedProcedureId },
     });
   }
 
   public novoCasoTeste() {
     this.$router.push({
       name: `novoCasoTeste`,
-      params: { criticaId: this.criticaId },
+      params: { storedProcedureId: this.storedProcedureId },
     });
   }
 
-  public executarTestesPorCritica(){
+  public executarTestesPorStoredProcedure(){
     this._testeValidacaoService
-      .executarTestePorCritica({criticaId:this.criticaId})
+      .executarTestePorStoredProcedure({storedProcedureId:this.storedProcedureId})
       .then((result: any) => {
         this.recuperaListagem();
         this.$q.notify(result);

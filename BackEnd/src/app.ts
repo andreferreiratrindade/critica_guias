@@ -5,11 +5,11 @@ import bodyParser from 'body-parser'
 import logger from 'morgan'
 import cors from 'cors'
 import { sequelize } from './instances/sequelize';
-import { CriticaParametro } from './models/criticaParametroModel';
-import { Critica } from './models/criticaModel';
+import { StoredProcedureParametro } from './models/storedProcedureParametroModel';
+import { StoredProcedure } from './models/storedProcedureModel';
 import { Config } from './config/Config';
-import { CriticaRoute } from './routes/criticaRoute';
-import { CriticaParametroRoute } from './routes/criticaParametroRoute';
+import { StoredProcedureRoute } from './routes/storedProcedureRoute';
+import { StoredProcedureParametroRoute } from './routes/storedProcedureParametroRoute';
 import { ParametroRoute } from './routes/parametroRoute';
 import { CasoTeste } from './models/casoTesteModel';
 import { CasoTesteRoute } from './routes/casoTesteRoute';
@@ -17,7 +17,7 @@ import { BuildMockRoute } from './routes/buildMockRoute';
 import { CasoTesteParametroExecucao } from './models/casoTesteParametroExecucaoModel';
 import { CasoTesteParametroExecucaoRoute } from './routes/casoTesteParametroExecucaoRoute';
 import { CasoTesteColunaMockRoute } from './routes/casoTesteColunaMockRoute';
-import { CriticaTabelaDependenciaRoute } from './routes/criticaTabelaDependenciaRoute';
+import { StoredProcedureDependenciaRoute } from './routes/storedProcedureDependenciaRoute';
 import { CasoTesteColunaMock } from './models/CasoTesteColunaMockModel';
 import { TesteValidacaoRoute } from './routes/testeValidacao';
 const app = express();
@@ -36,29 +36,29 @@ app.use(logger('dev'));
 // middleware
 
 
-let criticaRepository = sequelize.getRepository(Critica);
-let criticaParametroRepository = sequelize.getRepository(CriticaParametro);
+let storedProcedureRepository = sequelize.getRepository(StoredProcedure);
+let storedProcedureParametroRepository = sequelize.getRepository(StoredProcedureParametro);
 let casoTesteRepository = sequelize.getRepository(CasoTeste);
 let casoTesteParametroExecucaoRepository = sequelize.getRepository(CasoTesteParametroExecucao);
 let casoTesteColunaMockRepository = sequelize.getRepository(CasoTesteColunaMock);
 
 let casoTesteRoute = new CasoTesteRoute(casoTesteRepository);
-let criticaRoute = new CriticaRoute(criticaRepository);
-let criticaParametroRoute = new CriticaParametroRoute(criticaParametroRepository);
+let criticaRoute = new StoredProcedureRoute(storedProcedureRepository);
+let storedProcedureParametroRoute = new StoredProcedureParametroRoute(storedProcedureParametroRepository);
 let parametroRoute = new ParametroRoute();
 let buildMockRoute = new  BuildMockRoute();
 let casoTesteParametroExecucaoRoute = new CasoTesteParametroExecucaoRoute(casoTesteParametroExecucaoRepository);
 let casoTesteColunaMockRoute = new CasoTesteColunaMockRoute(casoTesteColunaMockRepository);
-let criticaTabelaDependenciaRoute = new CriticaTabelaDependenciaRoute();
+let storedProcedureDependenciaRoute = new StoredProcedureDependenciaRoute();
 let testeValidacaoRoute = new TesteValidacaoRoute();
 // public
-app.use('/criticaParametro', criticaParametroRoute.montaRotas());
+app.use('/storedProcedureParametro', storedProcedureParametroRoute.montaRotas());
 app.use('/critica', criticaRoute.montaRotas());
 app.use('/casoTeste', casoTesteRoute.montaRotas());
 app.use('/parametro', parametroRoute.montaRotas());
 app.use('/buildMock', buildMockRoute.montaRotas());
 app.use('/casoTesteParametroExecucao', casoTesteParametroExecucaoRoute.montaRotas());
-app.use('/criticaTabelaDependencia', criticaTabelaDependenciaRoute.montaRotas());
+app.use('/storedProcedureDependencia', storedProcedureDependenciaRoute.montaRotas());
 app.use('/casoTesteColunaMock', casoTesteColunaMockRoute.montaRotas());
 app.use('/testeValidacao', testeValidacaoRoute.montaRotas());
 app.use('/api', apiRoutes);

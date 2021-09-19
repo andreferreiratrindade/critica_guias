@@ -12,7 +12,7 @@
         />
 
         <q-toolbar-title>
-          Critica guias
+          StoredProcedure guias
         </q-toolbar-title>
       </q-toolbar>
     </q-header>

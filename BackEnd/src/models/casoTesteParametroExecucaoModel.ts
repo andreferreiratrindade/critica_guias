@@ -17,7 +17,7 @@ export class CasoTesteParametroExecucao extends Model {
     casoTesteId !: number;
 
     @Column(DataType.INTEGER)
-    criticaParametroId !: number;
+    storedProcedureParametroId !: number;
 
     @Column(DataType.STRING)
     valorParametroExecucao!:string;

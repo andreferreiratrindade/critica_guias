@@ -1,6 +1,6 @@
 import * as Jwt from 'jsonwebtoken'
 import { check, validationResult } from 'express-validator';
-import { Critica } from '../models/criticaModel';
+import { StoredProcedure } from '../models/storedProcedureModel';
 import { Repository } from 'sequelize-typescript';
 import { RetornoRequest } from '../utils/retornoRequest';
 import HttpStatusCode from '../constants/HttpStatusCode';
@@ -19,7 +19,7 @@ export class CasoTesteService {
   }
 
   public async adicionarValidation(req: any) {
-    await check("criticaId")
+    await check("storedProcedureId")
       .notEmpty()
       .withMessage("Campo de preenchimento obrigatório")
       .run(req);
@@ -65,7 +65,7 @@ export class CasoTesteService {
         return RetornoRequest.Response(result.array(), null, res, HttpStatusCode.BAD_REQUEST);
       }
       let casoTeste = {
-        criticaId: req.body.criticaId,
+        storedProcedureId: req.body.storedProcedureId,
         casoTesteSituacaoId: Constants.CasoTesteSituacao.EM_EDICAO,
         nmeCasoTeste: req.body.nmeCasoTeste
       };
@@ -128,7 +128,7 @@ export class CasoTesteService {
   }
 
   private async listagemValidacao(req: any) {
-    await check("criticaId")
+    await check("storedProcedureId")
       .notEmpty()
       .withMessage("Campo de preenchimento obrigatório")
       .isNumeric()
@@ -146,7 +146,7 @@ export class CasoTesteService {
       }
 
 
-      const parametros = await RepositoryQuery.RecuperaListagemCasoTeste(req.params.criticaId);
+      const parametros = await RepositoryQuery.RecuperaListagemCasoTeste(req.params.storedProcedureId);
 
       return RetornoRequest.Response(parametros, null, res, HttpStatusCode.OK);
     } catch (error: any) {

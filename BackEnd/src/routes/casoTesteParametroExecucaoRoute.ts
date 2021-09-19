@@ -22,9 +22,9 @@ export class CasoTesteParametroExecucaoRoute {
             return casoTesteParametroExecucaoService.adicionar(request,response);
         });
 
-        router.get("/RecuperaPorCritica/:criticaId",(request: any,response:any)=>{
+        router.get("/RecuperaPorStoredProcedure/:storedProcedureId",(request: any,response:any)=>{
             let casoTesteParametroExecucaoService = new CasoTesteParametroExecucaoService(this._casoTesteParametroExecucaoRepository);
-            return casoTesteParametroExecucaoService.listarPorCritica(request,response);
+            return casoTesteParametroExecucaoService.listarPorStoredProcedure(request,response);
         });
 
         router.get("/RecuperaPorCasoTeste/:casoTesteId",(request: any,response:any)=>{

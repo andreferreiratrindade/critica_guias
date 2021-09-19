@@ -11,8 +11,8 @@ export class ParametroRoute {
         let router = express.Router();
         
         router.get("",(request: any,response:any)=>{
-            let criticaParametroService = new ParametroService();
-            return criticaParametroService.listar(request,response);
+            let storedProcedureParametroService = new ParametroService();
+            return storedProcedureParametroService.listar(request,response);
         });
 
         return router;

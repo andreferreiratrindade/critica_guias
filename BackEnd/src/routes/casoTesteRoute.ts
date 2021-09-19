@@ -1,6 +1,6 @@
-import {  CriticaService } from '../services/criticaService'
+import {  StoredProcedureService } from '../services/storedProcedureService'
 import express, { Router } from 'express'
-import { Critica } from '../models/criticaModel';
+import { StoredProcedure } from '../models/storedProcedureModel';
 import { Repository } from 'sequelize-typescript';
 import { CasoTesteService } from '../services/casoTesteService';
 import { CasoTeste } from '../models/casoTesteModel';
@@ -46,7 +46,7 @@ export class CasoTesteRoute {
             return casoTesteService.recuperaPorId(request,response);
         });
 
-        router.get("/listagem/:criticaId",(request: any,response:any)=>{
+        router.get("/listagem/:storedProcedureId",(request: any,response:any)=>{
             let casoTesteService = new CasoTesteService(this._casoTesteRepository);
             return casoTesteService.listar(request,response);
         });

@@ -39,10 +39,10 @@ export class CasoTesteParametroExecucaoService {
         }
     }
 
-    public async listarPorCritica(criticaId : number) {
+    public async listarPorStoredProcedure(storedProcedureId : number) {
         let parameters: IHttpClientRequestParameters
             = {
-            url: Config.api + `/casoTesteParametroExecucao/RecuperaPorCritica/${criticaId}`,
+            url: Config.api + `/casoTesteParametroExecucao/RecuperaPorStoredProcedure/${storedProcedureId}`,
             requiresToken: true
         }
         try {

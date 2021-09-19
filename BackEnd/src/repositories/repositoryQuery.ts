@@ -14,26 +14,26 @@ export class RepositoryQuery {
       { type: 'SELECT' });
   }
 
-  static async RecuperaListagemParametroCritica(criticaId: number) {
+  static async RecuperaListagemParametroStoredProcedure(storedProcedureId: number) {
     return await sequelize.query(
       `SELECT parametro.idParametro
       , parametro.nmeParametro
       ,  tipoParametro.nmeTipoParametro
-      , criticaParametro.criticaIdParametro
-      , criticaParametro.seqCriticaParametro
+      , storedProcedureParametro.storedProcedureIdParametro
+      , storedProcedureParametro.seqStoredProcedureParametro
       , parametro.desCorParametro
       FROM parametro parametro
       inner join tipoParametro tipoParametro
         on tipoParametro.IdTipoParametro = parametro.IdTipoParametro
-      inner join CriticaParametro criticaParametro
-		on criticaParametro.IdParametro = parametro.IdParametro
-	where criticaParametro.criticaId = :criticaId
-  order by criticaParametro.seqCriticaParametro`,
-      { replacements: { criticaId: criticaId }, type: 'SELECT' });
+      inner join StoredProcedureParametro storedProcedureParametro
+		on storedProcedureParametro.IdParametro = parametro.IdParametro
+	where storedProcedureParametro.storedProcedureId = :storedProcedureId
+  order by storedProcedureParametro.seqStoredProcedureParametro`,
+      { replacements: { storedProcedureId: storedProcedureId }, type: 'SELECT' });
 
   }
 
-  static async RecuperaListagemCasoTeste(criticaId: number) {
+  static async RecuperaListagemCasoTeste(storedProcedureId: number) {
     return await sequelize.query(`
     select CasoTeste.casoTesteId,
     CasoTeste.nmeCasoTeste,
@@ -43,16 +43,16 @@ export class RepositoryQuery {
     from PlanoSaude.dbo.CasoTeste CasoTeste
     inner join PlanoSaude.dbo.CasoTesteSituacao CasoTesteSituacao
     on CasoTesteSituacao.CasoTesteSituacaoId = CasoTeste.CasoTesteSituacaoId
-    where CasoTeste.criticaId = :criticaId
+    where CasoTeste.storedProcedureId = :storedProcedureId
     order by CasoTeste.CasoTesteId
     `,
-      { replacements: { criticaId: criticaId }, type: 'SELECT' });
+      { replacements: { storedProcedureId: storedProcedureId }, type: 'SELECT' });
   }
 
-  static async RecuperaListagemCritica() {
+  static async RecuperaListagemStoredProcedure() {
     return await sequelize.query(`
-    select critica.criticaId, critica.nmeCritica, critica.desCritica, critica.nroCritica, critica.nmeStoredProcedure
-     from PlanoSaude.dbo.Critica critica
+    select critica.storedProcedureId, critica.nmeStoredProcedure, critica.desStoredProcedure, critica.nroStoredProcedure, critica.nmeStoredProcedure
+     from PlanoSaude.dbo.StoredProcedure critica
     `,
       { type: 'SELECT' });
   }
@@ -82,69 +82,69 @@ export class RepositoryQuery {
 
   static async RecuperaListagemCasoTesteParametroExecucaoPorCasoTeste(casoTesteId: number) {
     return await sequelize.query(`
-    select CriticaParametro.criticaParametroId
-, CriticaParametro.criticaId
-, CriticaParametro.nmeParametro 
+    select StoredProcedureParametro.storedProcedureParametroId
+, StoredProcedureParametro.storedProcedureId
+, StoredProcedureParametro.nmeParametro 
 , casoTesteId = :casoTesteId
 , CasoTesteParametroExecucao.casoTesteParametroExecucaoId
 , CasoTesteParametroExecucao.valorParametroExecucao
-from PlanoSaude.dbo.CriticaParametro CriticaParametro
+from PlanoSaude.dbo.StoredProcedureParametro StoredProcedureParametro
 inner join PlanoSaude.dbo.CasoTeste casoteste
-    on casoteste.CriticaId = CriticaParametro.CriticaId
+    on casoteste.storedProcedureId = StoredProcedureParametro.storedProcedureId
 left join PlanoSaude.dbo.CasoTesteParametroExecucao CasoTesteParametroExecucao
     on casoteste.CasoTesteId = CasoTesteParametroExecucao.CasoTesteId
-    and CasoTesteParametroExecucao.CriticaParametroId = CriticaParametro.CriticaParametroId
+    and CasoTesteParametroExecucao.StoredProcedureParametroId = StoredProcedureParametro.StoredProcedureParametroId
     where casoteste.casoTesteId = :casoTesteId
     `,
       { replacements: { casoTesteId: casoTesteId }, type: 'SELECT' });
   }
 
-  static async RecuperaListagemCasoTesteParametroExecucaoPorCritica(criticaId: number) {
+  static async RecuperaListagemCasoTesteParametroExecucaoPorStoredProcedure(storedProcedureId: number) {
     return await sequelize.query(`
 
-    select CriticaParametro.criticaParametroId
-    , CriticaParametro.criticaId
-    , CriticaParametro.nmeParametro 
+    select StoredProcedureParametro.storedProcedureParametroId
+    , StoredProcedureParametro.storedProcedureId
+    , StoredProcedureParametro.nmeParametro 
     
-    from PlanoSaude.dbo.CriticaParametro CriticaParametro
+    from PlanoSaude.dbo.StoredProcedureParametro StoredProcedureParametro
     
-        where CriticaParametro.CriticaId = :criticaId
+        where StoredProcedureParametro.storedProcedureId = :storedProcedureId
     `,
-      { replacements: { criticaId: criticaId }, type: 'SELECT' });
+      { replacements: { storedProcedureId: storedProcedureId }, type: 'SELECT' });
   }
 
-  static async RecuperaListagemCriticaTabelaDependencia(criticaId: number) {
+  static async RecuperaListagemStoredProcedureDependencia(storedProcedureId: number) {
     return await sequelize.query(`
 
-    select CriticaTabelaDependencia.criticaTabelaDependenciaId
-    , CriticaTabelaDependencia.nmeTabela 
+    select StoredProcedureDependencia.storedProcedureDependenciaId
+    , StoredProcedureDependencia.nmeDependencia 
     
-    from PlanoSaude.dbo.CriticaTabelaDependencia CriticaTabelaDependencia
+    from PlanoSaude.dbo.StoredProcedureDependencia StoredProcedureDependencia
     
-        where CriticaTabelaDependencia.CriticaId = :criticaId
+        where StoredProcedureDependencia.storedProcedureId = :storedProcedureId
     `,
-      { replacements: { criticaId: criticaId }, type: 'SELECT' });
+      { replacements: { storedProcedureId: storedProcedureId }, type: 'SELECT' });
   }
 
-  static async RecuperaListagemCasoTesteColunaMock(criticaTabelaDependenciaId: number, casoTesteId: number) {
+  static async RecuperaListagemCasoTesteColunaMock(storedProcedureDependenciaId: number, casoTesteId: number) {
 
-    console.log(criticaTabelaDependenciaId)
+    console.log(storedProcedureDependenciaId)
     console.log(casoTesteId)
     return await sequelize.query(`
 
-    select CriticaTabelaDependenciaColuna.criticaTabelaDependenciaColunaId, 
-    CriticaTabelaDependenciaColuna.nmeColuna,
+    select StoredProcedureDependenciaColuna.storedProcedureDependenciaColunaId, 
+    StoredProcedureDependenciaColuna.nmeColuna,
     casoTesteColunaMockId = casoTesteColunaMock.casoTesteColunaMockId ,
     casoTesteId = casoTesteColunaMock.casoTesteId,
     valorColunaMock = casoTesteColunaMock.valorColunaMock
     
-    from PlanoSaude.dbo.CriticaTabelaDependenciaColuna CriticaTabelaDependenciaColuna
+    from PlanoSaude.dbo.StoredProcedureDependenciaColuna StoredProcedureDependenciaColuna
         left join PlanoSaude.dbo.CasoTesteColunaMock casoTesteColunaMock
-            on casoTesteColunaMock.CriticaTabelaDependenciaColunaId = CriticaTabelaDependenciaColuna.CriticaTabelaDependenciaColunaId
+            on casoTesteColunaMock.StoredProcedureDependenciaColunaId = StoredProcedureDependenciaColuna.StoredProcedureDependenciaColunaId
             and casoTesteColunaMock.CasoTesteId = :casoTesteId
-        where CriticaTabelaDependenciaColuna.criticaTabelaDependenciaId = :criticaTabelaDependenciaId
+        where StoredProcedureDependenciaColuna.storedProcedureDependenciaId = :storedProcedureDependenciaId
     `,
-      { replacements: { criticaTabelaDependenciaId: criticaTabelaDependenciaId, casoTesteId: casoTesteId }, type: 'SELECT' });
+      { replacements: { storedProcedureDependenciaId: storedProcedureDependenciaId, casoTesteId: casoTesteId }, type: 'SELECT' });
   }
 
 
@@ -155,11 +155,11 @@ execute aplicacao.dbo.Run_Teste_Por_CasoTeste @casoTesteId = :casoTesteId
       { replacements: { casoTesteId: casoTesteId } });
   }
 
-  static async ExecutaMonta_parametro_critica(criticaId: number) {
+  static async ExecutaMonta_parametro_critica(storedProcedureId: number) {
     return await sequelize.query(`
-execute aplicacao.dbo.run_teste_por_critica @criticaId = :criticaId
+execute aplicacao.dbo.run_teste_por_critica @storedProcedureId = :storedProcedureId
     `,
-      { replacements: { criticaId: criticaId } });
+      { replacements: { storedProcedureId: storedProcedureId } });
   }
 
 

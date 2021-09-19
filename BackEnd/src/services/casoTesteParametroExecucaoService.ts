@@ -1,6 +1,6 @@
 import * as Jwt from 'jsonwebtoken'
 import { check, validationResult } from 'express-validator';
-import { Critica } from '../models/criticaModel';
+import { StoredProcedure } from '../models/storedProcedureModel';
 import { Repository } from 'sequelize-typescript';
 import { RetornoRequest } from '../utils/retornoRequest';
 import HttpStatusCode from '../constants/HttpStatusCode';
@@ -18,7 +18,7 @@ export class CasoTesteParametroExecucaoService {
   }
 
   public async adicionarValidation(req: any) {
-    await check("criticaParametroId")
+    await check("storedProcedureParametroId")
       .notEmpty()
       .withMessage("Campo de preenchimento obrigatório")
       .run(req);
@@ -47,7 +47,7 @@ export class CasoTesteParametroExecucaoService {
       casoTesteParametroExecucao = {
         casoTesteParametroExecucaoId: req.body.casoTesteParametroExecucaoId,
         casoTesteId: req.body.casoTesteId,
-        criticaParametroId: req.body.criticaParametroId,
+        storedProcedureParametroId: req.body.storedProcedureParametroId,
         valorParametroExecucao: req.body.valorParametroExecucao,
       };
 
@@ -68,10 +68,10 @@ export class CasoTesteParametroExecucaoService {
     }
   }
 
-  public async listarPorCritica(req: any, res: any) {
+  public async listarPorStoredProcedure(req: any, res: any) {
     try {
 
-      const parametros = await RepositoryQuery.RecuperaListagemCasoTesteParametroExecucaoPorCritica(req.params.criticaId);
+      const parametros = await RepositoryQuery.RecuperaListagemCasoTesteParametroExecucaoPorStoredProcedure(req.params.storedProcedureId);
 
       return RetornoRequest.Response(parametros, null, res, HttpStatusCode.OK);
     } catch (error: any) {

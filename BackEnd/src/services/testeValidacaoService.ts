@@ -24,16 +24,16 @@ export class TesteValidacaoService {
     }
   }
 
-  public async executarTestePorCritica(req: any, res: any) {
+  public async executarTestePorStoredProcedure(req: any, res: any) {
     try {
       console.log("Teste de nome caso teste");
       console.log(req.body);
 
       let critica = {
-        criticaId: req.body.criticaId
+        storedProcedureId: req.body.storedProcedureId
       };
 
-      const parametros = await RepositoryQuery.ExecutaMonta_parametro_critica(req.body.criticaId);
+      const parametros = await RepositoryQuery.ExecutaMonta_parametro_critica(req.body.storedProcedureId);
 
 
       return RetornoRequest.Response(parametros, null, res, HttpStatusCode.OK);

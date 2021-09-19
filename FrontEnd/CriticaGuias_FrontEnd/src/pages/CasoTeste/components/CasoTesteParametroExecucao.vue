@@ -3,7 +3,7 @@
     <q-input
       v-model="parametroExecucao.valorParametroExecucao"
       v-for="parametroExecucao in casoTesteParametroExecucaoList"
-      v-bind:key="parametroExecucao.criticaParametroId"
+      v-bind:key="parametroExecucao.storedProcedureParametroId"
       type="text"
       :label="parametroExecucao.nmeParametro"
       filled
@@ -19,7 +19,7 @@ import { CasoTesteParametroExecucaoService } from "../../../services/CasoTestePa
 @Component
 export default class CasoTesteParametroExecucao extends Vue {
   @Prop()
-  criticaId: number;
+  storedProcedureId: number;
 
   @Prop()
   casoTesteId: number;

@@ -15,7 +15,7 @@ export class CasoTesteColunaMock extends Model {
     casoTesteId !: number;
 
     @Column(DataType.INTEGER)
-    criticaTabelaDependenciaColunaId !: number;
+    storedProcedureDependenciaColunaId !: number;
 
     @Column(DataType.STRING)
     valorColunaMock!:string;

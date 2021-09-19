@@ -12,7 +12,7 @@ export class CasoTeste extends Model {
     casoTesteId !: number;
 
     @Column(DataType.INTEGER)
-    criticaId !: number;
+    storedProcedureId !: number;
 
     @Column(DataType.INTEGER)
     casoTesteSituacaoId !: number;

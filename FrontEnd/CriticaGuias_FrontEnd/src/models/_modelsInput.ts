@@ -1,36 +1,32 @@
 export namespace _modelsInput{
 
-    export interface Critica{
-        criticaId : number | null,
-        nmeCritica: string | null,
-        desCritica:string| null,
-        nroCritica:number| null,
-        nmeStoredProcedure : string | null
-
+    export interface StoredProcedure{
+        storedProcedureId : number | null,
+        nmeStoredProcedure: string | null
     }
 
 
     export interface CasoTeste{
         casoTesteId: number | null,
-        criticaId :number | null,
+        storedProcedureId :number | null,
         casoTesteSituacaoId : number | null,
         nmeCasoTeste : string | null,
         nmeEsperado : string | null
     }
 
-    export interface CrticaParametro{
+    export interface StoredProcedureParametro{
 
-        idParametro: number | null,
-        seqCriticaParametro:number| null,
-        criticaId : number | null,
-        criticaIdParametro : number| null
+        storedProcedureParametroId: number | null,
+        nmeParametro: string| null
+        storedProcedureId : number | null,
+        parametroTipoId:null|null
     }
 
-    export interface CriticaTeste{
+    export interface StoredProcedureTeste{
 
-        nmeCritica: string | null,
-        desCritica:string| null,
-        nroCritica:number| null
+        nmeStoredProcedure: string | null,
+        desStoredProcedure:string| null,
+        nroStoredProcedure:number| null
     }
 
     export interface BeneficiarioBuildMock{
@@ -48,21 +44,21 @@ export namespace _modelsInput{
     export interface CasoTesteParametroExecucao{
         casoTesteId : number | null,
         casoTesteParametroExecucaoId : number| null,
-        criticaParametroId : number | null, 
+        storedProcedureParametroId : number | null, 
         valorParametroExecucao : number | null,
         parametroTipoId :number | null, 
         nmeParametro : string | null
     }
 
-    export interface CriticaTabelaDependencia {
-        criticaTabelaDependenciaId : number | null,
-        criticaId : number | null, 
-        nmeTabela : string | null
+    export interface StoredProcedureDependencia {
+        storedProcedureDependenciaId : number | null,
+        storedProcedureId : number | null, 
+        nmeDependencia : string | null
 
     }
 
     export interface CasoTesteDependenciaColuna{
-        criticaTabelaDependenciaColunaId : number | null, 
+        storedProcedureDependenciaColunaId : number | null, 
         nmeColuna : string | null,
         casoTesteColunaMockId : number | null,
         casoTesteId : number| null

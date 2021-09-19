@@ -5,11 +5,11 @@ const routes: RouteConfig[] = [
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/Critica/CriticaList.vue'), name:"criticaList" },
-      { path: 'ManterCritica', name: "ManterCritica", component: () => import('pages/Critica/ManterCritica.vue') },
-      { path: 'casoTeste/casoTesteList/:criticaId', name: "casoTesteList", component: () => import('pages/CasoTeste/casoTesteList.vue') },
-      { path: 'casoTeste/casoTesteList/:criticaId/manterCasoTeste/:casoTesteId', name: "atualizarCasoTeste", component: () => import('pages/CasoTeste/manterCasoTeste.vue') },
-      { path: 'casoTeste/casoTesteList/:criticaId/manterCasoTeste', name: "novoCasoTeste", component: () => import('pages/CasoTeste/manterCasoTeste.vue') },
+      { path: '', component: () => import('pages/StoredProcedure/StoredProcedureList.vue'), name:"criticaList" },
+      { path: 'ManterStoredProcedure', name: "ManterStoredProcedure", component: () => import('pages/StoredProcedure/ManterStoredProcedure.vue') },
+      { path: 'casoTeste/casoTesteList/:storedProcedureId', name: "casoTesteList", component: () => import('pages/CasoTeste/casoTesteList.vue') },
+      { path: 'casoTeste/casoTesteList/:storedProcedureId/manterCasoTeste/:casoTesteId', name: "atualizarCasoTeste", component: () => import('pages/CasoTeste/manterCasoTeste.vue') },
+      { path: 'casoTeste/casoTesteList/:storedProcedureId/manterCasoTeste', name: "novoCasoTeste", component: () => import('pages/CasoTeste/manterCasoTeste.vue') },
     ]
   },
 

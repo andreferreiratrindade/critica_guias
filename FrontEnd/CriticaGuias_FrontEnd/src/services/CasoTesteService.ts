@@ -73,10 +73,10 @@ export class CasoTesteService {
         }
     }
 
-    public async listar(criticaId : number) {
+    public async listar(storedProcedureId : number) {
         let parameters: IHttpClientRequestParameters
             = {
-            url: Config.api + `/casoTeste/listagem/${criticaId}`,
+            url: Config.api + `/casoTeste/listagem/${storedProcedureId}`,
             requiresToken: true
         }
         try {

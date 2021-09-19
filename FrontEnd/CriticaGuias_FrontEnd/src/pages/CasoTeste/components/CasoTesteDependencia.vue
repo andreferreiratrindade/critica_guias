@@ -1,18 +1,18 @@
 <template>
   <div class="q-pa-md">
     <q-expansion-item
-      v-for="dependencia in criticaTabelaDependenciaList"
-      v-bind:key="dependencia.criticaTabelaDependenciaId"
+      v-for="dependencia in storedProcedureDependenciaList"
+      v-bind:key="dependencia.storedProcedureDependenciaId"
       expand-separator
-      :label="dependencia.nmeTabela"
+      :label="dependencia.nmeDependencia"
       class="bg-warning"
        header-class="text-black text-h6"
     >
       <q-card bordered>
         <q-card-section> 
             <caso-teste-dependencia-coluna 
-              :ref="'casoTesteDependenciaColuna_' + dependencia.criticaTabelaDependenciaId"
-              :criticaTabelaDependenciaId="dependencia.criticaTabelaDependenciaId"
+              :ref="'casoTesteDependenciaColuna_' + dependencia.storedProcedureDependenciaId"
+              :storedProcedureDependenciaId="dependencia.storedProcedureDependenciaId"
               :casoTesteId="casoTesteId"/>
         </q-card-section>
       </q-card>
@@ -23,27 +23,27 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { _modelsInput } from "../../../models/_modelsInput";
-import { CriticaTabelaDependenciaService } from "../../../services/CriticaTabelaDependenciaService";
+import { StoredProcedureDependenciaService } from "../../../services/StoredProcedureDependenciaService";
 import CasoTesteDependenciaColuna from "./CasoTesteDependenciaColuna.vue"
 @Component({
   components: { CasoTesteDependenciaColuna },
 })
 export default class CasoTesteDependencia extends Vue {
   @Prop()
-  criticaId: number;
+  storedProcedureId: number;
 
   @Prop()
   casoTesteId : number
 
-  private _criticaTabelaDependenciaService!: CriticaTabelaDependenciaService;
-  private criticaTabelaDependenciaList: _modelsInput.CriticaTabelaDependencia[] =
+  private _storedProcedureDependenciaService!: StoredProcedureDependenciaService;
+  private storedProcedureDependenciaList: _modelsInput.StoredProcedureDependencia[] =
     [];
 
   public recuperaListagem() {
-    this._criticaTabelaDependenciaService
-      .listar(this.criticaId)
+    this._storedProcedureDependenciaService
+      .listar(this.storedProcedureId)
       .then((result: any) => {
-        this.criticaTabelaDependenciaList = result;
+        this.storedProcedureDependenciaList = result;
       })
       .catch((err: any) => {
         this.$q.notify(err);
@@ -54,8 +54,8 @@ export default class CasoTesteDependencia extends Vue {
   }
 
   created() {
-    this._criticaTabelaDependenciaService =
-      new CriticaTabelaDependenciaService();
+    this._storedProcedureDependenciaService =
+      new StoredProcedureDependenciaService();
     this.recuperaListagem();
   }
 

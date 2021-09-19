@@ -18,10 +18,10 @@ export class TesteValidacaoRoute {
         });
 
 
-        router.post("/executarTestePorCritica",(request: any,response:any)=>{
-            console.log("executarTestePorCritica");
+        router.post("/executarTestePorStoredProcedure",(request: any,response:any)=>{
+            console.log("executarTestePorStoredProcedure");
             let casoTesteService = new TesteValidacaoService();
-            return casoTesteService.executarTestePorCritica(request,response);
+            return casoTesteService.executarTestePorStoredProcedure(request,response);
         });
 
         
