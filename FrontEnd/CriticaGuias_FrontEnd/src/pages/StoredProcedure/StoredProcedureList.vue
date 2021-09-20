@@ -24,6 +24,18 @@
         :columns="columns"
         row-key="name"
       >
+      
+      <template v-slot:body-cell-casoTesteFalhou="props">
+         <q-td :props="props">
+           <q-badge color="red" v-if="props.value == 1">
+      Falhou
+    </q-badge>
+
+    <q-badge color="green" v-if="props.value != 1">
+      Passou
+    </q-badge>
+         </q-td>
+      </template>
         <template v-slot:body-cell-storedProcedureId="props">
           <q-td :props="props">
             <q-btn
