@@ -59,8 +59,19 @@ export class RepositoryQuery {
   static async RecuperaListagemStoredProcedure() {
     return await sequelize.query(
       `
-    select storedProcedure.storedProcedureId, storedProcedure.nmeStoredProcedure
-     from teste.dbo.StoredProcedure storedProcedure
+      select storedProcedure.storedProcedureId, 
+      storedProcedure.nmeStoredProcedure,
+      percentualCoberto = (select sum(StoredProcedureCobertura.TotalCoberto) / sum(StoredProcedureCobertura.TotalEtapa) * 100
+                          from teste.dbo.StoredProcedureCobertura 
+                          where StoredProcedureCobertura.StoredProcedureId = storedProcedure.StoredProcedureId),
+       totalCasoTeste = (select count(0) 
+                      from teste.dbo.CasoTeste 
+                      where CasoTeste.StoredProcedureId = storedProcedure.StoredProcedureId),
+      casoTesteFalhou = (select top 1 1  
+                           from teste.dbo.CasoTeste 
+                           where CasoTeste.StoredProcedureId = storedProcedure.StoredProcedureId
+                           and CasoTeste.CasoTesteSituacaoId = 4)
+           from teste.dbo.StoredProcedure storedProcedure
     `,
       { type: 'SELECT' },
     )

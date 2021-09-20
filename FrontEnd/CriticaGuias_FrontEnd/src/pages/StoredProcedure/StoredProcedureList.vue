@@ -67,7 +67,26 @@ export default class StoredProcedureList extends Vue {
       label: "Stored Procedure",
       field: "nmeStoredProcedure",
     },
+   
     {
+      name: "totalCasoTeste",
+      align: "center",
+      label: "Total caso de teste",
+      field: "totalCasoTeste",
+    },
+    {
+      name: "casoTesteFalhou",
+      align: "center",
+      label: "Situação do casos de teste",
+      field: "casoTesteFalhou",
+    },
+    {
+      name: "percentualCoberto",
+      align: "center",
+      label: "Cobertura %",
+      field: "percentualCoberto",
+    },
+     {
       name: "storedProcedureId",
       align: "center",
       label: "",
