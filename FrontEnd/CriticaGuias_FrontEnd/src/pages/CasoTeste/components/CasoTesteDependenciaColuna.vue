@@ -6,7 +6,7 @@
       v-for="coluna in storedProcedureDependenciaColunaList"
       v-bind:key="coluna.storedProcedureDependenciaColunaId"
       type="text"
-      :label="coluna.nmeColuna"
+      :label="coluna.nmeDependenciaParametro"
       filled
     />
 

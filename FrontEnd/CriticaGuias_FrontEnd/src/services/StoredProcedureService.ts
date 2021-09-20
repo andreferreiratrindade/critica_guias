@@ -17,7 +17,7 @@ export class StoredProcedureService {
         }
         try {
             let result = await HttpClient.post(parameters);
-            let notify = result.ok ? NotifyHelper.sucesso() : NotifyHelper.erro(result.error);
+            let notify = result.ok ? NotifyHelper.sucesso(undefined,result.obj) : NotifyHelper.erro(result.error);
 
             return notify;
         } catch (error) {

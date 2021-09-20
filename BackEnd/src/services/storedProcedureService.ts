@@ -22,17 +22,6 @@ export class StoredProcedureService {
       .withMessage("Campo de preenchimento obrigatório")
       .run(req);
 
-    await check("desStoredProcedure")
-      .notEmpty()
-      .withMessage("Campo de preenchimento obrigatório")
-      .run(req);
-
-    await check("nroStoredProcedure")
-      .notEmpty()
-      .withMessage("Campo Nome é de preenchimento obrigatório")
-      .isNumeric()
-      .withMessage("Campo do tipo numerico")
-      .run(req);
   }
 
 
