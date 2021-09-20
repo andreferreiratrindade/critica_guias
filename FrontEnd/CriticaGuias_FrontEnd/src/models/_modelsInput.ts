@@ -59,10 +59,18 @@ export namespace _modelsInput{
 
     export interface CasoTesteDependenciaColuna{
         storedProcedureDependenciaColunaId : number | null, 
-        nmeColuna : string | null,
+        nmeDependenciaParametro : string | null,
         casoTesteColunaMockId : number | null,
         casoTesteId : number| null
         valorColunaMock : string | null
+    }
+
+    export interface StoredProcedureCobertura{
+        storedProcedureCoberturaId : number | null,
+        storedProcedureId : number | null,
+        totalCoberto : number| null, 
+        totalEtapa: number| null, 
+        coberturaHtml: string| null
     }
 }
  

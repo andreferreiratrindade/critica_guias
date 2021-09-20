@@ -138,7 +138,7 @@ export default class CasoTesteList extends Vue {
 
   public voltar() {
     this.$router.push({
-      name: `criticaList`
+      name: `storedProcedureParametroList`
     });
   }
 }

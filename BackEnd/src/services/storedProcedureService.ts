@@ -22,17 +22,6 @@ export class StoredProcedureService {
       .withMessage("Campo de preenchimento obrigatório")
       .run(req);
 
-    await check("desStoredProcedure")
-      .notEmpty()
-      .withMessage("Campo de preenchimento obrigatório")
-      .run(req);
-
-    await check("nroStoredProcedure")
-      .notEmpty()
-      .withMessage("Campo Nome é de preenchimento obrigatório")
-      .isNumeric()
-      .withMessage("Campo do tipo numerico")
-      .run(req);
   }
 
 
@@ -55,7 +44,7 @@ export class StoredProcedureService {
 
       let resultCreate = await this.storedProcedureRepository.create(storedProcedure, { isNewRecord: true })
 
-      await RepositoryQuery.ExecutaMonta_parametro_critica(resultCreate.storedProcedureId); 
+      await RepositoryQuery.ExecutaMontaStoredProcedureDependencias(resultCreate.storedProcedureId); 
 
       return RetornoRequest.Response(resultCreate, null, res, HttpStatusCode.OK);
     } catch (error: any) {

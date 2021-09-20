@@ -4,13 +4,13 @@ import { IHttpClientRequestParameters } from "./interfaces/IHttpClientRequestPar
 import * as Config from '../config/config.json'
 import NotifyHelper from "src/helpers/NotifyHelpter";
 import { _helperModel } from "../helpers/_helperModel"
-export class StoredProcedureService {
+export class StoredProcedureCoberturaService {
 
 
     public async adicionar(conteudo: _modelsInput.StoredProcedure) {
         let parameters: IHttpClientRequestParameters
             = {
-            url: Config.api + "/critica",
+            url: Config.api + "/storedProcedureCobertura",
 
             requiresToken: true,
             payload: conteudo
@@ -25,10 +25,10 @@ export class StoredProcedureService {
         }
     }
 
-    public async listar() {
+    public async listar(storedProcedureId:number) {
         let parameters: IHttpClientRequestParameters
             = {
-            url: Config.api + "/critica",
+            url: Config.api + `/storedProcedureCobertura/${storedProcedureId}`,
             requiresToken: true
         }
         try {

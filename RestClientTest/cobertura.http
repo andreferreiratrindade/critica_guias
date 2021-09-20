@@ -1,0 +1,2 @@
+GET https://localhost:5001/Cobertura?storedProcedureId=1 HTTP/1.1
+

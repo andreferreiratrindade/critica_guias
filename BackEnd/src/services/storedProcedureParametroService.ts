@@ -115,7 +115,7 @@ export class StoredProcedureParametroService {
   }
 
   public async deletarValidacao(req: any){
-    await check("storedProcedureIdParametro")
+    await check("storedProcedureParametroId")
     .notEmpty()
     .withMessage("Campo é de preenchimento obrigatório")
     .isNumeric()
